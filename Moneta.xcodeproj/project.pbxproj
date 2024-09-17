@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9859A7F52C99D51A0056F5FD /* NewTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F42C99D51A0056F5FD /* NewTransactionViewController.swift */; };
+		9859A7F72C99D55D0056F5FD /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F62C99D55D0056F5FD /* TransactionModel.swift */; };
+		9859A7F92C99D57D0056F5FD /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F82C99D57D0056F5FD /* DatabaseManager.swift */; };
+		9859A7FB2C99D59C0056F5FD /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7FA2C99D59C0056F5FD /* ViewModel.swift */; };
 		98E455E82C85A1250033AE0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455E72C85A1250033AE0D /* AppDelegate.swift */; };
 		98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455E92C85A1250033AE0D /* SceneDelegate.swift */; };
 		98E455EC2C85A1250033AE0D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455EB2C85A1250033AE0D /* MainViewController.swift */; };
@@ -16,6 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9859A7F42C99D51A0056F5FD /* NewTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTransactionViewController.swift; sourceTree = "<group>"; };
+		9859A7F62C99D55D0056F5FD /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
+		9859A7F82C99D57D0056F5FD /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		9859A7FA2C99D59C0056F5FD /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		98E455E42C85A1250033AE0D /* Moneta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moneta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E455E72C85A1250033AE0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98E455E92C85A1250033AE0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +45,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9859A7F32C99D4EB0056F5FD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				98E455EB2C85A1250033AE0D /* MainViewController.swift */,
+				9859A7F42C99D51A0056F5FD /* NewTransactionViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		98E455DB2C85A1250033AE0D = {
 			isa = PBXGroup;
 			children = (
@@ -56,8 +73,10 @@
 		98E455E62C85A1250033AE0D /* Moneta */ = {
 			isa = PBXGroup;
 			children = (
+				9859A7F82C99D57D0056F5FD /* DatabaseManager.swift */,
+				9859A7FA2C99D59C0056F5FD /* ViewModel.swift */,
 				98E455FB2C85D8140033AE0D /* Models */,
-				98E455EB2C85A1250033AE0D /* MainViewController.swift */,
+				9859A7F32C99D4EB0056F5FD /* Views */,
 				98E455E92C85A1250033AE0D /* SceneDelegate.swift */,
 				98E455E72C85A1250033AE0D /* AppDelegate.swift */,
 				98E455ED2C85A1250033AE0D /* Main.storyboard */,
@@ -71,6 +90,7 @@
 		98E455FB2C85D8140033AE0D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9859A7F62C99D55D0056F5FD /* TransactionModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -168,9 +188,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9859A7F72C99D55D0056F5FD /* TransactionModel.swift in Sources */,
+				9859A7F52C99D51A0056F5FD /* NewTransactionViewController.swift in Sources */,
+				9859A7F92C99D57D0056F5FD /* DatabaseManager.swift in Sources */,
 				98E455EC2C85A1250033AE0D /* MainViewController.swift in Sources */,
 				98E455E82C85A1250033AE0D /* AppDelegate.swift in Sources */,
 				98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */,
+				9859A7FB2C99D59C0056F5FD /* ViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

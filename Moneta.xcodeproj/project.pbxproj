@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		98E455E82C85A1250033AE0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455E72C85A1250033AE0D /* AppDelegate.swift */; };
 		98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455E92C85A1250033AE0D /* SceneDelegate.swift */; };
-		98E455EC2C85A1250033AE0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455EB2C85A1250033AE0D /* ViewController.swift */; };
+		98E455EC2C85A1250033AE0D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455EB2C85A1250033AE0D /* MainViewController.swift */; };
 		98E455EF2C85A1250033AE0D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E455ED2C85A1250033AE0D /* Main.storyboard */; };
 		98E455F12C85A1280033AE0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98E455F02C85A1280033AE0D /* Assets.xcassets */; };
 		98E455F42C85A1280033AE0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E455F22C85A1280033AE0D /* LaunchScreen.storyboard */; };
@@ -19,7 +19,7 @@
 		98E455E42C85A1250033AE0D /* Moneta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moneta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E455E72C85A1250033AE0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98E455E92C85A1250033AE0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		98E455EB2C85A1250033AE0D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		98E455EB2C85A1250033AE0D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		98E455EE2C85A1250033AE0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		98E455F02C85A1280033AE0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98E455F32C85A1280033AE0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -56,15 +56,23 @@
 		98E455E62C85A1250033AE0D /* Moneta */ = {
 			isa = PBXGroup;
 			children = (
-				98E455E72C85A1250033AE0D /* AppDelegate.swift */,
+				98E455FB2C85D8140033AE0D /* Models */,
+				98E455EB2C85A1250033AE0D /* MainViewController.swift */,
 				98E455E92C85A1250033AE0D /* SceneDelegate.swift */,
-				98E455EB2C85A1250033AE0D /* ViewController.swift */,
+				98E455E72C85A1250033AE0D /* AppDelegate.swift */,
 				98E455ED2C85A1250033AE0D /* Main.storyboard */,
 				98E455F02C85A1280033AE0D /* Assets.xcassets */,
 				98E455F22C85A1280033AE0D /* LaunchScreen.storyboard */,
 				98E455F52C85A1280033AE0D /* Info.plist */,
 			);
 			path = Moneta;
+			sourceTree = "<group>";
+		};
+		98E455FB2C85D8140033AE0D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +82,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 98E455F82C85A1280033AE0D /* Build configuration list for PBXNativeTarget "Moneta" */;
 			buildPhases = (
+				98062FB12C98513E00E0A729 /* ShellScript */,
 				98E455E02C85A1250033AE0D /* Sources */,
 				98E455E12C85A1250033AE0D /* Frameworks */,
 				98E455E22C85A1250033AE0D /* Resources */,
@@ -133,12 +142,33 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		98062FB12C98513E00E0A729 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${SRCROOT}/ScriptOutputs/space_cleanup.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nfind \"${SRCROOT}\" -name \"*.swift\" -print0 | xargs -0 perl -pi -e 's/\\xC2\\xA0/ /g'\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		98E455E02C85A1250033AE0D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98E455EC2C85A1250033AE0D /* ViewController.swift in Sources */,
+				98E455EC2C85A1250033AE0D /* MainViewController.swift in Sources */,
 				98E455E82C85A1250033AE0D /* AppDelegate.swift in Sources */,
 				98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */,
 			);

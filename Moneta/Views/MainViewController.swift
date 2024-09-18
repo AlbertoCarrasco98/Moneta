@@ -2,10 +2,18 @@ import UIKit
 
 class MainViewController: UIViewController {
 
+    let viewModel = ViewModel()
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .systemPink
+        tableView.layer.borderWidth = 2
+        tableView.layer.borderColor = UIColor.systemBlue.cgColor
+        tableView.layer.cornerRadius = 10
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+
         return tableView
     }()
 
@@ -19,12 +27,18 @@ class MainViewController: UIViewController {
         button.layer.borderWidth = 5
         button.layer.borderColor = UIColor.systemBlue.cgColor
         button.layer.cornerRadius = 25
+        button.addTarget(self, action: #selector(addTransactionButtonTapped), for: .touchUpInside)
         return button
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     private func setupUI() {
@@ -51,6 +65,37 @@ class MainViewController: UIViewController {
             addTransactionButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
+
+    @objc private func addTransactionButtonTapped() {
+        let vc = NewTransactionViewController(viewModel: self.viewModel)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension MainViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.transactions.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+
+        let transaction = viewModel.transactions[indexPath.row]
+
+        let typeText = transaction.type == .income ? "+ Ingreso" : "- Gasto"
+
+        cell.textLabel?.text = "\(typeText): \(transaction.amount)€"
+
+        return cell
+    }
+}
+
+extension MainViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
 }
 
 

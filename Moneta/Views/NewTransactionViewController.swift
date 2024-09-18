@@ -2,10 +2,21 @@ import UIKit
 
 class NewTransactionViewController: UIViewController {
 
-    private let stack = UIStackView()
-
+    var viewModel: ViewModel
+    
+    init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var segmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl()
+        let items = ["Gasto", "Ingreso"]
+        let segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.selectedSegmentIndex = 0
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
 //        segmentedControl.backgroundColor = .yellow
         segmentedControl.layer.borderWidth = 2
@@ -17,15 +28,24 @@ class NewTransactionViewController: UIViewController {
     private lazy var textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .brown
+        textField.layer.borderWidth = 2
+        textField.layer.borderColor = UIColor.systemBlue.cgColor
+        textField.layer.cornerRadius = 10
+        textField.layer.masksToBounds = true
+        textField.placeholder = "  Ingresa aquí una cantidad"
         return textField
     }()
 
     private lazy var addButton: UIButton = {
         let addButton = UIButton()
         addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.backgroundColor = .systemBlue
-
+        addButton.layer.borderWidth = 2
+        addButton.layer.borderColor = UIColor.systemBlue.cgColor
+        addButton.layer.cornerRadius = 10
+        addButton.setTitle("Añadir movimiento", for: .normal)
+        addButton.setTitleColor(.systemGray, for: .normal)
+        addButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         return addButton
     }()
 
@@ -40,8 +60,22 @@ class NewTransactionViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
 
-    let containerView = UIView()
+    private func addTransaction() {
+        guard let amountText = textField.text, let amount = Int(amountText) else {
+            print("Error: La cantidad no es un número válido")
+            return
+        }
 
+        let segmentedControlIndex = segmentedControl.selectedSegmentIndex
+        let transactionType: Transaction.TransactionType = segmentedControlIndex == 0 ? .expense : .income
+
+        viewModel.createTransaction(amount: amount, type: transactionType)
+    }
+
+    @objc func addButtonTapped() {
+        addTransaction()
+        navigationController?.popViewController(animated: true)
+    }
 
     private func addConstraints() {
         view.addSubview(segmentedControl)
@@ -57,7 +91,7 @@ class NewTransactionViewController: UIViewController {
             textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 72),
             textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 300),
             view.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 72),
-            textField.heightAnchor.constraint(equalToConstant: 35),
+            textField.heightAnchor.constraint(equalToConstant: 50),
 //            view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 250),
 
             // adButton

@@ -84,7 +84,9 @@ extension MainViewController: UITableViewDataSource {
 
         let typeText = transaction.type == .income ? "+ Ingreso" : "- Gasto"
 
-        cell.textLabel?.text = "\(typeText): \(transaction.amount)€"
+        let titleText = transaction.title
+
+        cell.textLabel?.text = "\(titleText), \(typeText): \(transaction.amount)€"
 
         return cell
     }

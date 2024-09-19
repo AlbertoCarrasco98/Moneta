@@ -12,8 +12,9 @@ class ViewModel {
 //    var newTransactionSignal = PassthroughSubject<Transaction, Never>()
 
 
-    func createTransaction(amount: Int, type: Transaction.TransactionType) {
+    func createTransaction(amount: Int, title: String, type: Transaction.TransactionType) {
         let transaction = Transaction(amount: amount,
+                                      title: title,
                                       type: type)
         transactions.append(transaction)
         print("El valor del array es:\(transactions) ")
@@ -25,7 +26,7 @@ class ViewModel {
     }
 
     func getTransaction() -> Transaction {
-        return Transaction(amount: 0, type: .expense)
+        return Transaction(amount: 0, title: "", type: .expense)
     }
 
     func deleteTransaction(_ transaction: Transaction) {

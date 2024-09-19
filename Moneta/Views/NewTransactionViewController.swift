@@ -16,23 +16,40 @@ class NewTransactionViewController: UIViewController {
     private lazy var segmentedControl: UISegmentedControl = {
         let items = ["Gasto", "Ingreso"]
         let segmentedControl = UISegmentedControl(items: items)
-        segmentedControl.selectedSegmentIndex = 0
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.selectedSegmentIndex = 0
 //        segmentedControl.backgroundColor = .yellow
         segmentedControl.layer.borderWidth = 2
         segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
         return segmentedControl
     }()
 
+    private lazy var titleTextField: UITextField = {
+        let titleTextField = UITextField()
+        titleTextField.translatesAutoresizingMaskIntoConstraints = false
+        titleTextField.layer.borderWidth = 2
+        titleTextField.layer.borderColor = UIColor.systemBlue.cgColor
+        titleTextField.layer.cornerRadius = 10
+        titleTextField.layer.masksToBounds = true
+//        titleTextField.placeholder = "Pon un título a la transacción"
+        titleTextField.attributedPlaceholder = NSAttributedString(string: "  Pon aquí un título a la transacción", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: UIFont.italicSystemFont(ofSize: 12)
+        ])
+        return titleTextField
+    }()
 
-    private lazy var textField: UITextField = {
+    private lazy var amountTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.borderWidth = 2
         textField.layer.borderColor = UIColor.systemBlue.cgColor
         textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
-        textField.placeholder = "  Ingresa aquí una cantidad"
+        textField.attributedPlaceholder = NSAttributedString(string: "  Ingresa aquí una cantidad", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: UIFont.italicSystemFont(ofSize: 12)
+        ])
         return textField
     }()
 
@@ -61,15 +78,20 @@ class NewTransactionViewController: UIViewController {
     }
 
     private func addTransaction() {
-        guard let amountText = textField.text, let amount = Int(amountText) else {
+        guard let amountText = amountTextField.text, let amount = Int(amountText) else {
             print("Error: La cantidad no es un número válido")
+            return
+        }
+
+        guard let titleText = titleTextField.text else {
+            print("Error: El título de la transacción no es válido")
             return
         }
 
         let segmentedControlIndex = segmentedControl.selectedSegmentIndex
         let transactionType: Transaction.TransactionType = segmentedControlIndex == 0 ? .expense : .income
 
-        viewModel.createTransaction(amount: amount, type: transactionType)
+        viewModel.createTransaction(amount: amount, title: titleText, type: transactionType)
     }
 
     @objc func addButtonTapped() {
@@ -79,7 +101,8 @@ class NewTransactionViewController: UIViewController {
 
     private func addConstraints() {
         view.addSubview(segmentedControl)
-        view.addSubview(textField)
+        view.addSubview(titleTextField)
+        view.addSubview(amountTextField)
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
             // segmentedControl
@@ -87,11 +110,18 @@ class NewTransactionViewController: UIViewController {
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
             view.trailingAnchor.constraint(equalTo: segmentedControl.trailingAnchor, constant: 48),
 
-            // textField
-            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 72),
-            textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 300),
-            view.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 72),
-            textField.heightAnchor.constraint(equalToConstant: 50),
+            // titleTextField
+            titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 72),
+            titleTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
+            view.trailingAnchor.constraint(equalTo: titleTextField.trailingAnchor, constant: 72),
+            titleTextField.heightAnchor.constraint(equalToConstant: 50),
+
+
+            // amountTextField
+            amountTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 72),
+            amountTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 300),
+            view.trailingAnchor.constraint(equalTo: amountTextField.trailingAnchor, constant: 72),
+            amountTextField.heightAnchor.constraint(equalToConstant: 50),
 //            view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 250),
 
             // adButton

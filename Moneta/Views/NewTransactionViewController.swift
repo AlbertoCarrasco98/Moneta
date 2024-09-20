@@ -73,7 +73,7 @@ class NewTransactionViewController: UIViewController {
     }
 
     private func setupUI() {
-        title = "Add new transaction"
+//        title = "Add new transaction"
         view.backgroundColor = .systemBackground
     }
 

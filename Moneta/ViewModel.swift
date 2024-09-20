@@ -5,12 +5,9 @@ class ViewModel {
 
     var transactions: [Transaction] = []
 
-
-
     let databaseManager = DatabaseManager()
 
 //    var newTransactionSignal = PassthroughSubject<Transaction, Never>()
-
 
     func createTransaction(amount: Int, title: String, type: Transaction.TransactionType) {
         let transaction = Transaction(amount: amount,

@@ -13,7 +13,6 @@ class MainViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-
         return tableView
     }()
 
@@ -33,6 +32,11 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    }
+
+    override func loadView() {
+        super.loadView()
         setupUI()
     }
 
@@ -43,7 +47,6 @@ class MainViewController: UIViewController {
 
     private func setupUI() {
         view.backgroundColor = .systemBackground
-        title = "MONETA"
         addConstraints()
     }
 

@@ -124,7 +124,8 @@ class BalanceViewController: UIViewController {
 
     private func setupUI() {
         view.backgroundColor = .white
-        title = "BALANCE"
+//        self.title = "BALANCE"
+//        self.tabBarController?.tabBar.items?[1].title = "Balance"
         addConstraints()
     }
 

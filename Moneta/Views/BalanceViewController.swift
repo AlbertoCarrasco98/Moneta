@@ -2,6 +2,17 @@ import UIKit
 
 class BalanceViewController: UIViewController {
 
+    let viewModel: ViewModel
+
+    init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // mainStackView
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -46,7 +57,7 @@ class BalanceViewController: UIViewController {
     private lazy var expenseAmountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "10€"
+//        label.text = String(totalExpenses())
         label.font = .boldSystemFont(ofSize: 16)
         label.textAlignment = .center
         label.layer.borderWidth = 2
@@ -80,7 +91,6 @@ class BalanceViewController: UIViewController {
     private lazy var incomeAmountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "15€"
         label.font = .boldSystemFont(ofSize: 16)
         label.textAlignment = .center
         label.layer.borderWidth = 2
@@ -111,7 +121,6 @@ class BalanceViewController: UIViewController {
     private lazy var balanceAmountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "+ 5€"
         label.font = .boldSystemFont(ofSize: 24)
         label.textAlignment = .center
         return label
@@ -119,14 +128,50 @@ class BalanceViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+
+    override func loadView() {
+        super.loadView()
         setupUI()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateExpenseLabel()
+        updateIncomeLabel()
+        updateBalanceAmountLabel()
     }
 
     private func setupUI() {
         view.backgroundColor = .white
-//        self.title = "BALANCE"
-//        self.tabBarController?.tabBar.items?[1].title = "Balance"
         addConstraints()
+    }
+
+    private func totalExpenses() -> Double {
+        let total = viewModel.expensesBalance()
+        return total
+    }
+
+    private func totalIncomes() -> Double {
+        let total = viewModel.incomeBalance()
+        return total
+    }
+
+    private func totalBalance() -> Double {
+        let total = viewModel.totalBalance()
+        return total
+    }
+
+    private func updateExpenseLabel() {
+        expenseAmountLabel.text = String(format: "%.2f", totalExpenses())
+    }
+
+    private func updateIncomeLabel() {
+        incomeAmountLabel.text = String(format: "%.2f", totalIncomes())
+    }
+
+    private func updateBalanceAmountLabel() {
+        balanceAmountLabel.text = String(format: "%.2f", totalBalance())
     }
 
     private func addConstraints() {
@@ -188,5 +233,4 @@ class BalanceViewController: UIViewController {
 
         ])
     }
-
 }

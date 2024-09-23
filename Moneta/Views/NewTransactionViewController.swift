@@ -132,3 +132,10 @@ class NewTransactionViewController: UIViewController {
         ])
     }
 }
+
+extension NewTransactionViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        amountTextField.becomeFirstResponder()
+    }
+
+}

@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    let viewModel = ViewModel()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -22,8 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let tabBar = UITabBarController()
 
-        let mainVC = MainViewController()
-        let balanceVC = BalanceViewController()
+        let mainVC = MainViewController(viewModel: viewModel)
+        let balanceVC = BalanceViewController(viewModel: viewModel)
         mainVC.title = "MONETA"
         balanceVC.title = "BALANCE"
 

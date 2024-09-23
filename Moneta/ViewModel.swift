@@ -30,21 +30,21 @@ class ViewModel {
 
     }
 
-    func expensesBalance() -> Double {
+    func calculateTotalExpenses() -> Double {
         let expenses = transactions
             .filter { $0.type == .expense }
             .reduce(0) { $0 + $1.amount }
         return Double(expenses)
     }
 
-    func incomeBalance() -> Double {
+    func calculateTotalIncomes() -> Double {
         let incomes = transactions
             .filter { $0.type == .income }
             .reduce(0) { $0 + $1.amount }
         return Double(incomes)
     }
 
-    func totalBalance() -> Double {
-        incomeBalance() - expensesBalance()
+    func calculateTotalBalance() -> Double {
+        calculateTotalIncomes() - calculateTotalExpenses()
     }
 }

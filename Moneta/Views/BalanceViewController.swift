@@ -2,18 +2,6 @@ import UIKit
 
 class BalanceViewController: UIViewController {
 
-    let viewModel: ViewModel
-
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    // mainStackView
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,7 +45,6 @@ class BalanceViewController: UIViewController {
     private lazy var expenseAmountLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = String(totalExpenses())
         label.font = .boldSystemFont(ofSize: 16)
         label.textAlignment = .center
         label.layer.borderWidth = 2
@@ -126,6 +113,17 @@ class BalanceViewController: UIViewController {
         return label
     }()
 
+    private let viewModel: ViewModel
+
+    init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -148,17 +146,17 @@ class BalanceViewController: UIViewController {
     }
 
     private func totalExpenses() -> Double {
-        let total = viewModel.expensesBalance()
+        let total = viewModel.calculateTotalExpenses()
         return total
     }
 
     private func totalIncomes() -> Double {
-        let total = viewModel.incomeBalance()
+        let total = viewModel.calculateTotalIncomes()
         return total
     }
 
     private func totalBalance() -> Double {
-        let total = viewModel.totalBalance()
+        let total = viewModel.calculateTotalBalance()
         return total
     }
 

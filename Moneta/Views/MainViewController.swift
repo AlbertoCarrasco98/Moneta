@@ -2,6 +2,32 @@ import UIKit
 
 class MainViewController: UIViewController {
 
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            SpacerView(axis: .vertical, space: 50),
+            tableView,
+            SpacerView(axis: .vertical, space: 150),
+            bottonStackView,
+            SpacerView(axis: .vertical, space: 40)
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
+        return stackView
+    }()
+
+    private lazy var bottonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            SpacerView(axis: .horizontal, space: 140),
+            addTransactionButton,
+            SpacerView(axis: .horizontal, space: 140)
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        return stackView
+    }()
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -39,10 +65,6 @@ class MainViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
     override func loadView() {
         super.loadView()
         setupUI()
@@ -59,21 +81,13 @@ class MainViewController: UIViewController {
     }
 
     private func addConstraints() {
-        view.addSubview(tableView)
-        view.addSubview(addTransactionButton)
+        view.addSubview(mainStackView)
 
         NSLayoutConstraint.activate([
-            // tableView
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
-            view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: 24),
-            tableView.heightAnchor.constraint(equalToConstant: 300),
-
-            // button
-            addTransactionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 150),
-            view.trailingAnchor.constraint(equalTo: addTransactionButton.trailingAnchor, constant: 150),
-            view.bottomAnchor.constraint(equalTo: addTransactionButton.bottomAnchor, constant: 100),
-            addTransactionButton.heightAnchor.constraint(equalToConstant: 50)
+            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor)
         ])
     }
 
@@ -104,7 +118,6 @@ extension MainViewController: UITableViewDataSource {
 }
 
 extension MainViewController: UITableViewDelegate {
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }

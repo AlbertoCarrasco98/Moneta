@@ -10,14 +10,12 @@ class NewTransactionViewController: UIViewController {
             titleTextFieldStackView,
             SpacerView(axis: .vertical, space: 100),
             amountTextFieldStackView,
-//            SpacerView(axis: .vertical, space: 24),
             UIView(),
             addTransactionButtonStackView,
             SpacerView(axis: .vertical, space: 24)
         ])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-//        stackView.distribution = .fill
 
         return stackView
     }()
@@ -39,6 +37,7 @@ class NewTransactionViewController: UIViewController {
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.layer.borderWidth = 2
         segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        segmentedControl.addTarget(self, action: #selector(updatePlaceholderTitleTextfield), for: .valueChanged)
         return segmentedControl
     }()
 
@@ -54,13 +53,12 @@ class NewTransactionViewController: UIViewController {
     }()
 
     private lazy var titleTextField: UITextField = {
-        let titleTextField = UITextField()
+        let titleTextField = InsetTextField(spacing: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0))
         titleTextField.layer.borderWidth = 2
         titleTextField.layer.borderColor = UIColor.systemBlue.cgColor
         titleTextField.layer.cornerRadius = 10
         titleTextField.layer.masksToBounds = true
-        //        titleTextField.placeholder = "Pon un título a la transacción"
-        titleTextField.attributedPlaceholder = NSAttributedString(string: "  Ingresa aquí un título a la transacción", attributes: [
+        titleTextField.attributedPlaceholder = NSAttributedString(string: "Ingresa un título para el nuevo gasto", attributes: [
             .foregroundColor: UIColor.lightGray,
             .font: UIFont.italicSystemFont(ofSize: 12)
         ])
@@ -79,15 +77,16 @@ class NewTransactionViewController: UIViewController {
     }()
 
     private lazy var amountTextField: UITextField = {
-        let textField = UITextField()
+        let textField = InsetTextField(spacing: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0))
         textField.layer.borderWidth = 2
         textField.layer.borderColor = UIColor.systemBlue.cgColor
         textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
-        textField.attributedPlaceholder = NSAttributedString(string: "  Ingresa aquí una cantidad", attributes: [
+        textField.attributedPlaceholder = NSAttributedString(string: "Ingresa una cantidad", attributes: [
             .foregroundColor: UIColor.lightGray,
             .font: UIFont.italicSystemFont(ofSize: 12)
         ])
+        textField.keyboardType = .decimalPad
         return textField
     }()
 
@@ -128,12 +127,13 @@ class NewTransactionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
     }
 
     private func setupUI() {
         view.backgroundColor = .systemBackground
         addConstraints()
+        hideKeyboardWhenTappedAround()
+
     }
 
     private func addTransaction() {
@@ -158,6 +158,28 @@ class NewTransactionViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
 
+    @objc private func updatePlaceholderTitleTextfield() {
+        let indexSegmentedControl = segmentedControl.selectedSegmentIndex
+
+        switch indexSegmentedControl {
+            case 0:
+                titleTextField.placeholder = "Ingresa un título para el nuevo gasto"
+            case 1:
+                titleTextField.placeholder = "Ingresa un título para el nuevo ingreso"
+            default:
+                break
+        }
+    }
+
+    private func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
     private func addConstraints() {
         view.addSubview(mainStackView)
         NSLayoutConstraint.activate([
@@ -174,3 +196,4 @@ extension NewTransactionViewController: UITextFieldDelegate {
         amountTextField.becomeFirstResponder()
     }
 }
+

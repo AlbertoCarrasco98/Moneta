@@ -34,9 +34,9 @@ class MainViewController: UIViewController {
         tableView.layer.borderWidth = 2
         tableView.layer.borderColor = UIColor.systemBlue.cgColor
         tableView.layer.cornerRadius = 10
+        tableView.register(CustomTransactionwCell.self, forCellReuseIdentifier: "CustomTransactionCell")
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         return tableView
     }()
 
@@ -103,15 +103,11 @@ extension MainViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTransactionCell", for: indexPath) as! CustomTransactionwCell
 
         let transaction = viewModel.transactions[indexPath.row]
 
-        let typeText = transaction.type == .income ? "+ Ingreso" : "- Gasto"
-
-        let titleText = transaction.title
-
-        cell.textLabel?.text = "\(titleText), \(typeText): \(transaction.amount)€"
+        cell.configure(with: transaction)
 
         return cell
     }
@@ -122,5 +118,3 @@ extension MainViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-
-

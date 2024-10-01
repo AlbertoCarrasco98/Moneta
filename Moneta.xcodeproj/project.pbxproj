@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9846B4B32CAAF7810098A2D3 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */; };
+		9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */; };
 		9859A7F52C99D51A0056F5FD /* NewTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F42C99D51A0056F5FD /* NewTransactionViewController.swift */; };
 		9859A7F72C99D55D0056F5FD /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F62C99D55D0056F5FD /* TransactionModel.swift */; };
 		9859A7F92C99D57D0056F5FD /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F82C99D57D0056F5FD /* DatabaseManager.swift */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransactionCell.swift; sourceTree = "<group>"; };
 		9859A7F42C99D51A0056F5FD /* NewTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTransactionViewController.swift; sourceTree = "<group>"; };
 		9859A7F62C99D55D0056F5FD /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
 		9859A7F82C99D57D0056F5FD /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 			children = (
 				9859A8012CA28D650056F5FD /* UIView+Extension.swift */,
 				9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */,
+				9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */,
 				9859A7FF2CA14F7F0056F5FD /* BalanceViewController.swift in Sources */,
 				9859A8022CA28D650056F5FD /* UIView+Extension.swift in Sources */,
+				9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */,
 				9859A7FB2C99D59C0056F5FD /* ViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -150,7 +150,12 @@ class NewTransactionViewController: UIViewController {
         let segmentedControlIndex = segmentedControl.selectedSegmentIndex
         let transactionType: Transaction.TransactionType = segmentedControlIndex == 0 ? .expense : .income
 
-        viewModel.createTransaction(amount: amount, title: titleText, type: transactionType)
+//        viewModel.createTransaction(amount: amount, title: titleText, type: transactionType)
+        viewModel.saveTransaction(Transaction(id: UUID(),
+                                              amount: amount,
+                                              title: titleText,
+                                              type: transactionType,
+                                              date: Date()))
     }
 
     @objc func addButtonTapped() {

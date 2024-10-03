@@ -99,13 +99,13 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.transactions.count
+        viewModel.getTransaction().count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTransactionCell", for: indexPath) as! CustomTransactionwCell
 
-        let transaction = viewModel.transactions[indexPath.row]
+        let transaction = viewModel.getTransaction()[indexPath.row]
 
         cell.configure(with: transaction)
 

@@ -57,7 +57,7 @@ class CustomTransactionwCell: UITableViewCell {
     }
 
     func configure(with transaction: Transaction) {
-        titleLabel.text = transaction.title
+        titleLabel.text = configureDateString(for: transaction)
         amountLabel.text = String(transaction.amount)
 
         if transaction.type == .expense {
@@ -67,6 +67,15 @@ class CustomTransactionwCell: UITableViewCell {
             typeImage.image = UIImage(systemName: "plus.circle.fill")
             typeImage.tintColor = .systemGreen
         }
+    }
 
+    private func configureDateString(for transaction: Transaction) -> String {
+        let date = transaction.date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+
+        let dateString = dateFormatter.string(from: date)
+        return dateString
     }
 }

@@ -9,9 +9,12 @@
 /* Begin PBXBuildFile section */
 		9846B4B32CAAF7810098A2D3 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */; };
 		9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */; };
+		9846B4B72CAD4C4F0098A2D3 /* TransactionSwitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B62CAD4C4F0098A2D3 /* TransactionSwitData.swift */; };
+		9846B4BA2CAD558B0098A2D3 /* TransactionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B92CAD558B0098A2D3 /* TransactionMapper.swift */; };
+		9846B4BC2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4BB2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift */; };
 		9859A7F52C99D51A0056F5FD /* NewTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F42C99D51A0056F5FD /* NewTransactionViewController.swift */; };
-		9859A7F72C99D55D0056F5FD /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F62C99D55D0056F5FD /* TransactionModel.swift */; };
-		9859A7F92C99D57D0056F5FD /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F82C99D57D0056F5FD /* DatabaseManager.swift */; };
+		9859A7F72C99D55D0056F5FD /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F62C99D55D0056F5FD /* Transaction.swift */; };
+		9859A7F92C99D57D0056F5FD /* TransactionSwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7F82C99D57D0056F5FD /* TransactionSwiftDataManager.swift */; };
 		9859A7FB2C99D59C0056F5FD /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7FA2C99D59C0056F5FD /* ViewModel.swift */; };
 		9859A7FF2CA14F7F0056F5FD /* BalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7FE2CA14F7F0056F5FD /* BalanceViewController.swift */; };
 		9859A8022CA28D650056F5FD /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A8012CA28D650056F5FD /* UIView+Extension.swift */; };
@@ -26,9 +29,12 @@
 /* Begin PBXFileReference section */
 		9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransactionCell.swift; sourceTree = "<group>"; };
+		9846B4B62CAD4C4F0098A2D3 /* TransactionSwitData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSwitData.swift; sourceTree = "<group>"; };
+		9846B4B92CAD558B0098A2D3 /* TransactionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionMapper.swift; sourceTree = "<group>"; };
+		9846B4BB2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDatabaseManagerProtocol.swift; sourceTree = "<group>"; };
 		9859A7F42C99D51A0056F5FD /* NewTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTransactionViewController.swift; sourceTree = "<group>"; };
-		9859A7F62C99D55D0056F5FD /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
-		9859A7F82C99D57D0056F5FD /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		9859A7F62C99D55D0056F5FD /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		9859A7F82C99D57D0056F5FD /* TransactionSwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSwiftDataManager.swift; sourceTree = "<group>"; };
 		9859A7FA2C99D59C0056F5FD /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		9859A7FE2CA14F7F0056F5FD /* BalanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceViewController.swift; sourceTree = "<group>"; };
 		9859A8012CA28D650056F5FD /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -53,6 +59,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9846B4B82CAD4E960098A2D3 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9846B4B62CAD4C4F0098A2D3 /* TransactionSwitData.swift */,
+				9859A7F82C99D57D0056F5FD /* TransactionSwiftDataManager.swift */,
+				9846B4B92CAD558B0098A2D3 /* TransactionMapper.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9846B4BD2CAE8B770098A2D3 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				9859A7FA2C99D59C0056F5FD /* ViewModel.swift */,
+				9859A7F62C99D55D0056F5FD /* Transaction.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
 		9859A7F32C99D4EB0056F5FD /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,9 +117,9 @@
 		98E455E62C85A1250033AE0D /* Moneta */ = {
 			isa = PBXGroup;
 			children = (
-				9859A7F82C99D57D0056F5FD /* DatabaseManager.swift */,
-				9859A7FA2C99D59C0056F5FD /* ViewModel.swift */,
-				98E455FB2C85D8140033AE0D /* Models */,
+				9846B4BB2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift */,
+				9846B4B82CAD4E960098A2D3 /* Data */,
+				9846B4BD2CAE8B770098A2D3 /* Domain */,
 				9859A7F32C99D4EB0056F5FD /* Views */,
 				9859A8002CA28D490056F5FD /* Extensions */,
 				98E455E92C85A1250033AE0D /* SceneDelegate.swift */,
@@ -105,14 +130,6 @@
 				98E455F52C85A1280033AE0D /* Info.plist */,
 			);
 			path = Moneta;
-			sourceTree = "<group>";
-		};
-		98E455FB2C85D8140033AE0D /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				9859A7F62C99D55D0056F5FD /* TransactionModel.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,15 +225,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9859A7F72C99D55D0056F5FD /* TransactionModel.swift in Sources */,
+				9846B4BA2CAD558B0098A2D3 /* TransactionMapper.swift in Sources */,
+				9859A7F72C99D55D0056F5FD /* Transaction.swift in Sources */,
 				9859A7F52C99D51A0056F5FD /* NewTransactionViewController.swift in Sources */,
-				9859A7F92C99D57D0056F5FD /* DatabaseManager.swift in Sources */,
+				9859A7F92C99D57D0056F5FD /* TransactionSwiftDataManager.swift in Sources */,
+				9846B4B72CAD4C4F0098A2D3 /* TransactionSwitData.swift in Sources */,
 				98E455EC2C85A1250033AE0D /* MainViewController.swift in Sources */,
 				98E455E82C85A1250033AE0D /* AppDelegate.swift in Sources */,
 				9846B4B32CAAF7810098A2D3 /* UITextField+Extension.swift in Sources */,
 				98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */,
 				9859A7FF2CA14F7F0056F5FD /* BalanceViewController.swift in Sources */,
 				9859A8022CA28D650056F5FD /* UIView+Extension.swift in Sources */,
+				9846B4BC2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift in Sources */,
 				9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */,
 				9859A7FB2C99D59C0056F5FD /* ViewModel.swift in Sources */,
 			);

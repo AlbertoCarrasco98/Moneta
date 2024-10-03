@@ -30,12 +30,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         mainVC.tabBarItem = UITabBarItem(title: "Moneta", image: UIImage(systemName: "dollarsign.circle"), tag: 0)
         balanceVC.tabBarItem = UITabBarItem(title: "Balance", image: UIImage(systemName: "wallet.pass"), tag: 1)
 
-
         let mainNavController = UINavigationController(rootViewController: mainVC)
         let balanceNavController = UINavigationController(rootViewController: balanceVC)
 
         tabBar.viewControllers = [mainNavController, balanceNavController]
-
 
         window.rootViewController = tabBar
 

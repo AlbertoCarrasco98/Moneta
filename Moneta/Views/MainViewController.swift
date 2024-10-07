@@ -6,7 +6,7 @@ class MainViewController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: [
             SpacerView(axis: .vertical, space: 50),
             tableView,
-            SpacerView(axis: .vertical, space: 150),
+            SpacerView(axis: .vertical, space: 50),
             bottonStackView,
             SpacerView(axis: .vertical, space: 40)
         ])
@@ -76,13 +76,13 @@ class MainViewController: UIViewController {
     }
 
     private func setupUI() {
+        title = "Historial de transacciones"
         view.backgroundColor = .systemBackground
         addConstraints()
     }
 
     private func addConstraints() {
         view.addSubview(mainStackView)
-
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -114,7 +114,10 @@ extension MainViewController: UITableViewDataSource {
 }
 
 extension MainViewController: UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let vc = TransactionDetailViewController(transaction: viewModel.transactions[indexPath.row])
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

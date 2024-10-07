@@ -12,7 +12,8 @@ class ViewModel: TransactionDatabaseManagerProtocol {
     }
 
     func getTransaction() -> [Transaction] {
-        databaseManager.getTransaction()
+        transactions = databaseManager.getTransaction()
+        return transactions
     }
 
     func deleteTransaction(_ transaction: Transaction) {

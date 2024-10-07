@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		980DF0A62CB42D6100CE612B /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980DF0A52CB42D6100CE612B /* TransactionDetailViewController.swift */; };
 		9846B4B32CAAF7810098A2D3 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */; };
 		9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */; };
 		9846B4B72CAD4C4F0098A2D3 /* TransactionSwitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B62CAD4C4F0098A2D3 /* TransactionSwitData.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		980DF0A52CB42D6100CE612B /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
 		9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransactionCell.swift; sourceTree = "<group>"; };
 		9846B4B62CAD4C4F0098A2D3 /* TransactionSwitData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSwitData.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				98E455EB2C85A1250033AE0D /* MainViewController.swift */,
 				9859A7F42C99D51A0056F5FD /* NewTransactionViewController.swift */,
 				9859A7FE2CA14F7F0056F5FD /* BalanceViewController.swift */,
+				980DF0A52CB42D6100CE612B /* TransactionDetailViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -226,6 +229,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9846B4BA2CAD558B0098A2D3 /* TransactionMapper.swift in Sources */,
+				980DF0A62CB42D6100CE612B /* TransactionDetailViewController.swift in Sources */,
 				9859A7F72C99D55D0056F5FD /* Transaction.swift in Sources */,
 				9859A7F52C99D51A0056F5FD /* NewTransactionViewController.swift in Sources */,
 				9859A7F92C99D57D0056F5FD /* TransactionSwiftDataManager.swift in Sources */,

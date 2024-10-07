@@ -57,7 +57,7 @@ class CustomTransactionwCell: UITableViewCell {
     }
 
     func configure(with transaction: Transaction) {
-        titleLabel.text = configureDateString(for: transaction)
+        titleLabel.text = transaction.title
         amountLabel.text = String(transaction.amount)
 
         if transaction.type == .expense {

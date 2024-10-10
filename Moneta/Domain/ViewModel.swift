@@ -3,23 +3,19 @@ import Foundation
 class ViewModel: TransactionDatabaseManagerProtocol {
 
     var transactions: [Transaction] = []
-
     var databaseManager = TransactionSwiftDataManager()
 
     func saveTransaction(_ transaction: Transaction) {
         databaseManager.saveTransaction(transaction)
-        
     }
 
-    func getTransaction() -> [Transaction] {
-        transactions = databaseManager.getTransaction()
-        return transactions
+    func getTransactions() -> [Transaction] {
+        databaseManager.getTransactions()
     }
 
     func deleteTransaction(_ transaction: Transaction) {
         databaseManager.deleteTransaction(transaction)
     }
-
 
     func createTransaction(amount: Int, title: String, type: Transaction.TransactionType) {
         let transaction = Transaction(amount: amount,

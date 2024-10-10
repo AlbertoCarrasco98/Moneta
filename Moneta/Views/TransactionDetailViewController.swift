@@ -3,6 +3,7 @@ import UIKit
 class TransactionDetailViewController: UIViewController {
 
     let transaction: Transaction
+    let viewModel: ViewModel
 
     lazy var moneyLabel: UILabel = {
         let label = UILabel()
@@ -73,9 +74,9 @@ class TransactionDetailViewController: UIViewController {
         }
     }
 
-    init(transaction: Transaction) {
+    init(viewModel: ViewModel, transaction: Transaction) {
         self.transaction = transaction
-
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -86,12 +87,26 @@ class TransactionDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        print("Has entrado en la transaccion con id: \(transaction.id)")
     }
 
     private func setupUI() {
         addCosntraints()
         title = "Detalle de transacción"
         view.backgroundColor = .systemBackground
+
+        let trashButton = UIBarButtonItem(image: UIImage(systemName: "trash"),
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(trashButtonTapped))
+        self.navigationItem.rightBarButtonItem = trashButton
+
+
+    }
+
+    @objc private func trashButtonTapped() {
+        viewModel.deleteTransaction(transaction)
+        navigationController?.popToRootViewController(animated: true)
     }
 
     private func addCosntraints() {

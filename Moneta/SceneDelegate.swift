@@ -10,31 +10,27 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    let viewModel = ViewModel()
+    var databaseManager: TransactionDatabaseManagerProtocol?
+    var viewModel: ViewModel?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
         let window = UIWindow(windowScene: windowScene)
 
-        let tabBar = UITabBarController()
-
-        let mainVC = MainViewController(viewModel: viewModel)
-        let balanceVC = BalanceViewController(viewModel: viewModel)
-        mainVC.title = "MONETA"
-        balanceVC.title = "BALANCE"
-
-        mainVC.tabBarItem = UITabBarItem(title: "Moneta", image: UIImage(systemName: "dollarsign.circle"), tag: 0)
-        balanceVC.tabBarItem = UITabBarItem(title: "Balance", image: UIImage(systemName: "wallet.pass"), tag: 1)
-
+        let mainVC = Assembler.createMainVC()
+        mainVC.tabBarItem = UITabBarItem(title: "Moneta",
+                                         image: UIImage(systemName: "dollarsign.circle"),
+                                         tag: 0)
         let mainNavController = UINavigationController(rootViewController: mainVC)
+
+        let balanceVC = Assembler.createBalanceVC()
+        balanceVC.tabBarItem = UITabBarItem(title: "Balance",
+                                            image: UIImage(systemName: "wallet.pass"),
+                                            tag: 1)
         let balanceNavController = UINavigationController(rootViewController: balanceVC)
 
+        let tabBar = UITabBarController()
         tabBar.viewControllers = [mainNavController, balanceNavController]
-
         window.rootViewController = tabBar
 
         self.window = window
@@ -68,7 +64,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
 }
 

@@ -11,8 +11,13 @@ class ViewModel {
     }
 
     func saveTransaction(_ transaction: Transaction) {
-        transactions.append(transaction)
-        databaseManager.saveTransaction(transaction)
+        let newTransaction = Transaction(amount: transaction.amount,
+                                         title: transaction.title,
+                                         type: transaction.type,
+                                         date: Date())
+        databaseManager.saveTransaction(newTransaction)
+        transactions.append(newTransaction)
+        loadTransactions()
     }
 
     func loadTransactions() {
@@ -25,15 +30,9 @@ class ViewModel {
 
     func deleteTransaction(_ transaction: Transaction) {
         databaseManager.deleteTransaction(transaction)
+        loadTransactions()
     }
 
-    func createTransaction(_ transaction: Transaction) {
-        let newTransaction = Transaction(amount: transaction.amount,
-                                         title: transaction.title,
-                                         type: transaction.type,
-                                         date: Date())
-        saveTransaction(newTransaction)
-    }
 
     func calculateTotalExpenses() -> Double {
         let expenses = transactions

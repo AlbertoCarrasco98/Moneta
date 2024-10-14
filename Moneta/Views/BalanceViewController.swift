@@ -133,6 +133,7 @@ class BalanceViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         addConstraints()
+        title = "BALANCE"
     }
 
     private func updateExpensesAmountLabel() {

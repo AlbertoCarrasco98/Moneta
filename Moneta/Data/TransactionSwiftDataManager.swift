@@ -33,12 +33,11 @@ class TransactionSwiftDataManager: TransactionDatabaseManagerProtocol {
     }
 
     func deleteTransaction(_ transaction: Transaction) {
-        guard let transactionToDelete = getTransactionToDelete(id: transaction.id) else { return }
-        print("La transaccion que se ha obtenido de la base de datos tiene un id: \(transaction.id)")
+        guard let transactionToDelete = getTransactionBy(id: transaction.id) else { return }
         modelContext.delete(transactionToDelete)
     }
 
-    func getTransactionToDelete(id: UUID) -> TransactionSwiftData? {
+    func getTransactionBy(id: UUID) -> TransactionSwiftData? {
         do {
             // Se crea un predicado para filtrar las transacciones por su id
             let predicate = #Predicate<TransactionSwiftData> { transaction in
@@ -57,7 +56,7 @@ class TransactionSwiftDataManager: TransactionDatabaseManagerProtocol {
             return transactions.first
 
         } catch {
-            print("error al obtener una transaccion de la base de datos")
+            print(DatabaseError.getTransaction)
             return nil
         }
     }

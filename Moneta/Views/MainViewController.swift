@@ -99,13 +99,13 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.getTransactions().count
+        viewModel.transactions.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTransactionCell", for: indexPath) as! CustomTransactionwCell
 
-        let transaction = viewModel.getTransactions()[indexPath.row]
+        let transaction = viewModel.transactions[indexPath.row]
 
         cell.configure(with: transaction)
 
@@ -117,7 +117,8 @@ extension MainViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let vc = TransactionDetailViewController(viewModel: viewModel, transaction: viewModel.transactions[indexPath.row])
+        let vc = TransactionDetailViewController(viewModel: viewModel,
+                                                 transaction: viewModel.transactions[indexPath.row])
         navigationController?.pushViewController(vc, animated: true)
     }
 }

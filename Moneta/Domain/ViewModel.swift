@@ -1,29 +1,38 @@
 import Foundation
 
-class ViewModel: TransactionDatabaseManagerProtocol {
+class ViewModel {
 
     var transactions: [Transaction] = []
-    var databaseManager = TransactionSwiftDataManager()
+    var databaseManager: TransactionDatabaseManagerProtocol
+
+    init(databaseManager: TransactionDatabaseManagerProtocol) {
+        self.databaseManager = databaseManager
+        loadTransactions()
+    }
 
     func saveTransaction(_ transaction: Transaction) {
+        transactions.append(transaction)
         databaseManager.saveTransaction(transaction)
     }
 
-    func getTransactions() -> [Transaction] {
-        databaseManager.getTransactions()
+    func loadTransactions() {
+        transactions = databaseManager.getTransactions()
+    }
+
+    func getTransactionBy(id: UUID) -> TransactionSwiftData? {
+        databaseManager.getTransactionBy(id: id)
     }
 
     func deleteTransaction(_ transaction: Transaction) {
         databaseManager.deleteTransaction(transaction)
     }
 
-    func createTransaction(amount: Int, title: String, type: Transaction.TransactionType) {
-        let transaction = Transaction(amount: amount,
-                                      title: title,
-                                      type: type,
-                                      date: Date())
-        transactions.append(transaction)
-        print("El valor del array es:\(transactions) ")
+    func createTransaction(_ transaction: Transaction) {
+        let newTransaction = Transaction(amount: transaction.amount,
+                                         title: transaction.title,
+                                         type: transaction.type,
+                                         date: Date())
+        saveTransaction(newTransaction)
     }
 
     func calculateTotalExpenses() -> Double {

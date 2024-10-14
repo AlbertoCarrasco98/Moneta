@@ -158,6 +158,7 @@ class NewTransactionViewController: UIViewController {
 
     @objc func addButtonTapped() {
         addTransaction()
+        print(viewModel.transactions)
         navigationController?.popViewController(animated: true)
     }
 

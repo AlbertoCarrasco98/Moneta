@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		980DF0A62CB42D6100CE612B /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980DF0A52CB42D6100CE612B /* TransactionDetailViewController.swift */; };
+		980DF0AA2CB959F400CE612B /* VCAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980DF0A92CB959F400CE612B /* VCAssembler.swift */; };
 		9846B4B32CAAF7810098A2D3 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */; };
 		9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */; };
 		9846B4B72CAD4C4F0098A2D3 /* TransactionSwitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B62CAD4C4F0098A2D3 /* TransactionSwitData.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		980DF0A52CB42D6100CE612B /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
+		980DF0A92CB959F400CE612B /* VCAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCAssembler.swift; sourceTree = "<group>"; };
 		9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransactionCell.swift; sourceTree = "<group>"; };
 		9846B4B62CAD4C4F0098A2D3 /* TransactionSwitData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSwitData.swift; sourceTree = "<group>"; };
@@ -61,6 +63,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		980DF0A72CB959CB00CE612B /* Composition */ = {
+			isa = PBXGroup;
+			children = (
+				980DF0A82CB959EA00CE612B /* Assemblers */,
+			);
+			path = Composition;
+			sourceTree = "<group>";
+		};
+		980DF0A82CB959EA00CE612B /* Assemblers */ = {
+			isa = PBXGroup;
+			children = (
+				980DF0A92CB959F400CE612B /* VCAssembler.swift */,
+			);
+			path = Assemblers;
+			sourceTree = "<group>";
+		};
 		9846B4B82CAD4E960098A2D3 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +138,7 @@
 		98E455E62C85A1250033AE0D /* Moneta */ = {
 			isa = PBXGroup;
 			children = (
+				980DF0A72CB959CB00CE612B /* Composition */,
 				9846B4BB2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift */,
 				9846B4B82CAD4E960098A2D3 /* Data */,
 				9846B4BD2CAE8B770098A2D3 /* Domain */,
@@ -240,6 +259,7 @@
 				98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */,
 				9859A7FF2CA14F7F0056F5FD /* BalanceViewController.swift in Sources */,
 				9859A8022CA28D650056F5FD /* UIView+Extension.swift in Sources */,
+				980DF0AA2CB959F400CE612B /* VCAssembler.swift in Sources */,
 				9846B4BC2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift in Sources */,
 				9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */,
 				9859A7FB2C99D59C0056F5FD /* ViewModel.swift in Sources */,

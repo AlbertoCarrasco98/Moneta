@@ -17,15 +17,6 @@ class TransactionDetailViewController: UIViewController {
         return label
     }()
 
-    private func moneyLabelIcon() -> String {
-        switch transaction.type {
-            case .income:
-                return "💰"
-            case .expense:
-                return "💶"
-        }
-    }
-
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -87,26 +78,70 @@ class TransactionDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        print("Has entrado en la transaccion con id: \(transaction.id)")
     }
 
     private func setupUI() {
         addCosntraints()
+        configureNavigationBar()
         title = "Detalle de transacción"
         view.backgroundColor = .systemBackground
-
-        let trashButton = UIBarButtonItem(image: UIImage(systemName: "trash"),
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(trashButtonTapped))
-        self.navigationItem.rightBarButtonItem = trashButton
-
-
     }
 
-    @objc private func trashButtonTapped() {
-        viewModel.deleteTransaction(transaction)
-        navigationController?.popToRootViewController(animated: true)
+    private func configureNavigationBar() {
+        navigationItem.rightBarButtonItem = createOptionsMenu()
+    }
+
+    private func createOptionsMenu() -> UIBarButtonItem {
+        let optionsMenu = UIBarButtonItem(image: UIImage(systemName: "ellipsis"),
+                                          style: .plain,
+                                          target: self,
+                                          action: nil)
+
+        let deleteButtonAction = UIAction(title: "Eliminar",
+                                          image: UIImage(systemName: "trash")?.withTintColor(.red, renderingMode: .alwaysOriginal)) { action in
+            self.presentDeleteTransactionAlert()
+        }
+        let editButtonAction = UIAction(title: "Modificar",
+                                  image: UIImage(systemName: "gear")) { action in
+            self.editButtonTapped()
+        }
+        let menu = UIMenu(children: [editButtonAction, deleteButtonAction])
+        optionsMenu.menu = menu
+        return optionsMenu
+    }
+
+    private func editButtonTapped() {
+        let editTransactionVC = EditTransactionViewController(transaction: transaction)
+        self.navigationController?.present(editTransactionVC, animated: true)
+    }
+
+    private func presentDeleteTransactionAlert() {
+        let alertController = UIAlertController(title: "Eliminar transacción",
+                                                message: "¿Estás seguro de que quieres eliminar la transacción?",
+                                                preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Eliminar",
+                                     style: .destructive) { UIAlertAction in
+            self.viewModel.deleteTransaction(self.transaction)
+            self.navigationController?.popViewController(animated: true)
+        }
+        let cancelAction = UIAlertAction(title: "Cancelar",
+                                         style: .cancel) { UIAlertAction in
+            NSLog("Cancel Pressed")
+        }
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController,
+                     animated: true,
+                     completion: nil)
+    }
+
+    private func moneyLabelIcon() -> String {
+        switch transaction.type {
+            case .income:
+                return "💰"
+            case .expense:
+                return "💶"
+        }
     }
 
     private func addCosntraints() {
@@ -130,7 +165,7 @@ class TransactionDetailViewController: UIViewController {
 
             amountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             amountLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 24),
-            view.trailingAnchor.constraint(equalTo: amountLabel.trailingAnchor, constant: 24),
+            view.trailingAnchor.constraint(equalTo: amountLabel.trailingAnchor, constant: 24)
         ])
     }
 
@@ -145,3 +180,4 @@ class TransactionDetailViewController: UIViewController {
         return dateString.prefix(1).capitalized + dateString.dropFirst()
     }
 }
+

@@ -103,12 +103,10 @@ class NewTransactionViewController: UIViewController {
 
     private lazy var addTransactionButton: UIButton = {
         let addButton = UIButton()
-        addButton.layer.borderWidth = 2
-        addButton.layer.borderColor = UIColor.systemBlue.cgColor
         addButton.layer.cornerRadius = 10
         addButton.setTitle("Añadir movimiento", for: .normal)
-        addButton.setTitleColor(.systemGray, for: .normal)
         addButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        addButton.backgroundColor = .systemBlue
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         return addButton
     }()

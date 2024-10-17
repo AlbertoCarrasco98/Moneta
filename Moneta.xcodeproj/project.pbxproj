@@ -20,6 +20,7 @@
 		9859A7FB2C99D59C0056F5FD /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7FA2C99D59C0056F5FD /* ViewModel.swift */; };
 		9859A7FF2CA14F7F0056F5FD /* BalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7FE2CA14F7F0056F5FD /* BalanceViewController.swift */; };
 		9859A8022CA28D650056F5FD /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A8012CA28D650056F5FD /* UIView+Extension.swift */; };
+		988705892CC100C4003655EC /* EditTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988705882CC100C4003655EC /* EditTransactionViewController.swift */; };
 		98E455E82C85A1250033AE0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455E72C85A1250033AE0D /* AppDelegate.swift */; };
 		98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455E92C85A1250033AE0D /* SceneDelegate.swift */; };
 		98E455EC2C85A1250033AE0D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455EB2C85A1250033AE0D /* MainViewController.swift */; };
@@ -42,6 +43,7 @@
 		9859A7FA2C99D59C0056F5FD /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		9859A7FE2CA14F7F0056F5FD /* BalanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceViewController.swift; sourceTree = "<group>"; };
 		9859A8012CA28D650056F5FD /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		988705882CC100C4003655EC /* EditTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionViewController.swift; sourceTree = "<group>"; };
 		98E455E42C85A1250033AE0D /* Moneta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moneta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E455E72C85A1250033AE0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98E455E92C85A1250033AE0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				9859A7F42C99D51A0056F5FD /* NewTransactionViewController.swift */,
 				9859A7FE2CA14F7F0056F5FD /* BalanceViewController.swift */,
 				980DF0A52CB42D6100CE612B /* TransactionDetailViewController.swift */,
+				988705882CC100C4003655EC /* EditTransactionViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */,
 				9859A7FF2CA14F7F0056F5FD /* BalanceViewController.swift in Sources */,
 				9859A8022CA28D650056F5FD /* UIView+Extension.swift in Sources */,
+				988705892CC100C4003655EC /* EditTransactionViewController.swift in Sources */,
 				980DF0AA2CB959F400CE612B /* VCAssembler.swift in Sources */,
 				9846B4BC2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift in Sources */,
 				9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */,

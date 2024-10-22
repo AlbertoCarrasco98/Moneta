@@ -2,9 +2,9 @@ import Foundation
 
 struct Transaction: Identifiable {
     let id: UUID
-    let amount: Int
-    let title: String
-    let type: TransactionType
+    var amount: Int
+    var title: String
+    var type: TransactionType
     let date: Date
 
     init(id: UUID = UUID(), amount: Int, title: String, type: TransactionType, date: Date) {

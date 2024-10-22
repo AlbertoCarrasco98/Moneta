@@ -10,6 +10,10 @@ class ViewModel {
         loadTransactions()
     }
 
+    func updateTransaction(_ transaction: Transaction) {
+        databaseManager.updateTransaction(transaction)
+    }
+
     func saveTransaction(_ transaction: Transaction) {
         let newTransaction = Transaction(amount: transaction.amount,
                                          title: transaction.title,

@@ -15,6 +15,36 @@ class TransactionSwiftDataManager: TransactionDatabaseManagerProtocol {
         }
     }
 
+    func updateTransaction(_ transaction: Transaction) {
+
+        let transactionToUpdate = getTransactionBy(id: transaction.id)
+
+        do {
+            transactionToUpdate?.type = transaction.type.mapToSwiftData()
+            transactionToUpdate?.title = transaction.title
+            transactionToUpdate?.amount = transaction.amount
+            try modelContext.save()
+            print("La transaccion se actualizo satisfactoriamente en la base de datos")
+        } catch {
+            print("Error al actualizar la transaccion en la base de datos")
+        }
+
+//        let fetchDescriptor = FetchDescriptor<TransactionSwiftData>(predicate: #Predicate { $0.id == transaction.id })
+//        do {
+//            if let existingTransaction = try modelContext.fetch(fetchDescriptor).first {
+//                existingTransaction.type = transaction.type.mapToSwiftData()
+//                existingTransaction.title = transaction.title
+//                existingTransaction.amount = transaction.amount
+//                try modelContext.save()
+//                print("La transaccion se actualizo satisfactoriamente en la base de datos")
+//            } else {
+//                print("No se encontro la transaccion con el id especificado")
+//            }
+//        } catch {
+//            print("Error al actualizar la transaccion en la base de datos")
+//        }
+    }
+
     func saveTransaction(_ transaction: Transaction) {
         let transactionSwiftData = transaction.mapToSwiftData()
         modelContext.insert(transactionSwiftData)

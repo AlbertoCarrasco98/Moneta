@@ -27,6 +27,7 @@
 		98E455EF2C85A1250033AE0D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E455ED2C85A1250033AE0D /* Main.storyboard */; };
 		98E455F12C85A1280033AE0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98E455F02C85A1280033AE0D /* Assets.xcassets */; };
 		98E455F42C85A1280033AE0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E455F22C85A1280033AE0D /* LaunchScreen.storyboard */; };
+		98EE4A7C2CC67565005E3E86 /* EditTransactionViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE4A7B2CC67565005E3E86 /* EditTransactionViewControllerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		98E455F02C85A1280033AE0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98E455F32C85A1280033AE0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		98E455F52C85A1280033AE0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		98EE4A7B2CC67565005E3E86 /* EditTransactionViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionViewControllerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		9846B4BD2CAE8B770098A2D3 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				98EE4A7B2CC67565005E3E86 /* EditTransactionViewControllerDelegate.swift */,
 				9859A7FA2C99D59C0056F5FD /* ViewModel.swift */,
 				9859A7F62C99D55D0056F5FD /* Transaction.swift */,
 			);
@@ -266,6 +269,7 @@
 				980DF0AA2CB959F400CE612B /* VCAssembler.swift in Sources */,
 				9846B4BC2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift in Sources */,
 				9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */,
+				98EE4A7C2CC67565005E3E86 /* EditTransactionViewControllerDelegate.swift in Sources */,
 				9859A7FB2C99D59C0056F5FD /* ViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

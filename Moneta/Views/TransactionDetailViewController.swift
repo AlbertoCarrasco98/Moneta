@@ -1,8 +1,8 @@
 import UIKit
 
-class TransactionDetailViewController: UIViewController {
+class TransactionDetailViewController: UIViewController, EditTransactionViewControllerDelegate {
 
-    let transaction: Transaction
+    var transaction: Transaction
     let viewModel: ViewModel
 
     lazy var moneyLabel: UILabel = {
@@ -75,6 +75,11 @@ class TransactionDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -111,7 +116,9 @@ class TransactionDetailViewController: UIViewController {
     }
 
     private func editButtonTapped() {
-        let editTransactionVC = EditTransactionViewController(transaction: transaction)
+        let editTransactionVC = EditTransactionViewController(viewModel: viewModel,
+                                                              transaction: transaction)
+        editTransactionVC.delegate = self
         self.navigationController?.present(editTransactionVC, animated: true)
     }
 
@@ -142,6 +149,11 @@ class TransactionDetailViewController: UIViewController {
             case .expense:
                 return "💶"
         }
+    }
+
+    func didUpdateTransaction(_ transaction: Transaction) {
+        self.transaction = transaction
+        titleLabel.text = transaction.title
     }
 
     private func addCosntraints() {

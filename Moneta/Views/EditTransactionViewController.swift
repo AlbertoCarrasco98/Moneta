@@ -1,9 +1,13 @@
 import UIKit
 
 class EditTransactionViewController: UIViewController {
+    var viewmodel: ViewModel
     var transaction: Transaction
 
-    init(transaction: Transaction) {
+    weak var delegate: EditTransactionViewControllerDelegate?
+
+    init(viewModel: ViewModel, transaction: Transaction) {
+        self.viewmodel = viewModel
         self.transaction = transaction
         super.init(nibName: nil, bundle: nil)
     }
@@ -87,9 +91,26 @@ class EditTransactionViewController: UIViewController {
         saveButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
 //        saveButton.setTitleColor(.systemGray, for: .normal)
         saveButton.backgroundColor = .systemBlue
+        saveButton.addTarget(self,
+                             action: #selector(saveButtonTapped),
+                             for: .touchUpInside)
 
         return saveButton
     }()
+
+    @objc func saveButtonTapped() {
+        guard let titleText = titleTextField.text else {
+            print("Error: El título de la transacción no es válido")
+            return
+        }
+        transaction.title = titleText
+
+        delegate?.didUpdateTransaction(transaction)
+
+        viewmodel.updateTransaction(self.transaction)
+        viewmodel.loadTransactions()
+        dismiss(animated: true)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

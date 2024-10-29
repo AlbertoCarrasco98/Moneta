@@ -68,9 +68,6 @@ class MainViewController: UIViewController {
     override func loadView() {
         super.loadView()
         setupUI()
-        print(viewModel.transactions)
-        print("///////")
-        print(viewModel.databaseManager.getTransactions())
     }
 
     override func viewWillAppear(_ animated: Bool) {

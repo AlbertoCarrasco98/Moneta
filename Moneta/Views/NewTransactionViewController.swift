@@ -134,7 +134,8 @@ class NewTransactionViewController: UIViewController {
     }
 
     private func addTransaction() {
-        guard let amountText = amountTextField.text, let amount = Int(amountText) else {
+        guard let amountText = amountTextField.text,
+              let amount = Int(amountText) else {
             print("Error: La cantidad no es un número válido")
             return
         }
@@ -144,8 +145,8 @@ class NewTransactionViewController: UIViewController {
             return
         }
 
-        let segmentedControlIndex = segmentedControl.selectedSegmentIndex
-        let transactionType: Transaction.TransactionType = segmentedControlIndex == 0 ? .expense : .income
+        let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
+        let transactionType: Transaction.TransactionType = selectedIndexSegmentedControl == 0 ? .expense : .income
 
         viewModel.saveTransaction(Transaction(id: UUID(),
                                               amount: amount,
@@ -161,9 +162,9 @@ class NewTransactionViewController: UIViewController {
     }
 
     @objc private func updatePlaceholderTitleTextfield() {
-        let indexSegmentedControl = segmentedControl.selectedSegmentIndex
+        let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
 
-        switch indexSegmentedControl {
+        switch selectedIndexSegmentedControl {
             case 0:
                 titleTextField.placeholder = "Ingresa un título para el nuevo gasto"
             case 1:

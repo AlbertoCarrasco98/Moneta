@@ -11,7 +11,7 @@ class EditTransactionViewController: UIViewController {
         self.transaction = transaction
         super.init(nibName: nil, bundle: nil)
     }
-
+ 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -19,7 +19,7 @@ class EditTransactionViewController: UIViewController {
     lazy var segmentedControl: UISegmentedControl = {
         let items = ["Gasto", "Ingreso"]
         let segmentedControl = UISegmentedControl(items: items)
-        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = indexForTransactionType()
 
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.widthAnchor.constraint(equalToConstant: 300).isActive = true
@@ -98,20 +98,6 @@ class EditTransactionViewController: UIViewController {
         return saveButton
     }()
 
-    @objc func saveButtonTapped() {
-        guard let titleText = titleTextField.text else {
-            print("Error: El título de la transacción no es válido")
-            return
-        }
-        transaction.title = titleText
-
-        delegate?.didUpdateTransaction(transaction)
-
-        viewmodel.updateTransaction(self.transaction)
-        viewmodel.loadTransactions()
-        dismiss(animated: true)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -121,6 +107,73 @@ class EditTransactionViewController: UIViewController {
         view.backgroundColor = .systemBackground
         self.title = "Editar transacción"
         addConstraint()
+        hideKeyboardWhenTappedAround()
+    }
+
+    private func getTitleTextFieldValue() -> String {
+        guard let titleText = titleTextField.text else {
+            print("Error: El título de la transacción no es válido")
+            return "Hola Caracola"
+        }
+
+        if titleTextField.text?.isEmpty == true {
+            return transaction.title
+        } else {
+            return titleText
+        }
+    }
+
+    private func getAmountTextFieldValue() -> Int {
+        guard let amountText = amountTextField.text,
+              let amount = Int(amountText), amount > 0
+        else {
+            print("Amount no ha cambiado")
+            return transaction.amount
+        }
+
+
+        if amountTextField.text?.isEmpty == true {
+            return transaction.amount
+        } else {
+            return amount
+        }
+    }
+
+    private func indexForTransactionType() -> Int {
+        switch transaction.type {
+            case .income:
+                return 1
+            case .expense:
+                return 0
+        }
+    }
+
+    private func getSelectedIndexSegmentedControl() -> Transaction.TransactionType{
+        let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
+        let transactionType: Transaction.TransactionType = selectedIndexSegmentedControl == 0 ? .expense : .income
+        return transactionType
+    }
+
+    @objc func saveButtonTapped() {
+        transaction.type = getSelectedIndexSegmentedControl()
+        transaction.title = getTitleTextFieldValue()
+        transaction.amount = getAmountTextFieldValue()
+
+        delegate?.didUpdateTransaction(transaction)
+
+        viewmodel.updateTransaction(self.transaction)
+        viewmodel.loadTransactions()
+        dismiss(animated: true)
+    }
+
+    private func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self,
+                                         action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     private func addConstraint(){

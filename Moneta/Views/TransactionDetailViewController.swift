@@ -154,6 +154,7 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
     func didUpdateTransaction(_ transaction: Transaction) {
         self.transaction = transaction
         titleLabel.text = transaction.title
+        amountLabel.text = String(transaction.amount)
     }
 
     private func addCosntraints() {

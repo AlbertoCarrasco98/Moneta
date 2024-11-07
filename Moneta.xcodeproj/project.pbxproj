@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		980B72252CD37A7E0042B717 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B72242CD37A7E0042B717 /* UIViewController+Extension.swift */; };
 		980DF0A62CB42D6100CE612B /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980DF0A52CB42D6100CE612B /* TransactionDetailViewController.swift */; };
 		980DF0AA2CB959F400CE612B /* VCAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980DF0A92CB959F400CE612B /* VCAssembler.swift */; };
 		9846B4B32CAAF7810098A2D3 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */; };
@@ -21,6 +22,7 @@
 		9859A7FF2CA14F7F0056F5FD /* BalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A7FE2CA14F7F0056F5FD /* BalanceViewController.swift */; };
 		9859A8022CA28D650056F5FD /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A8012CA28D650056F5FD /* UIView+Extension.swift */; };
 		988705892CC100C4003655EC /* EditTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988705882CC100C4003655EC /* EditTransactionViewController.swift */; };
+		988DCEE52CD21A3E005FC47D /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988DCEE42CD21A3E005FC47D /* AppError.swift */; };
 		98E455E82C85A1250033AE0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455E72C85A1250033AE0D /* AppDelegate.swift */; };
 		98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455E92C85A1250033AE0D /* SceneDelegate.swift */; };
 		98E455EC2C85A1250033AE0D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455EB2C85A1250033AE0D /* MainViewController.swift */; };
@@ -31,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		980B72242CD37A7E0042B717 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		980DF0A52CB42D6100CE612B /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
 		980DF0A92CB959F400CE612B /* VCAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCAssembler.swift; sourceTree = "<group>"; };
 		9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
@@ -45,6 +48,7 @@
 		9859A7FE2CA14F7F0056F5FD /* BalanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceViewController.swift; sourceTree = "<group>"; };
 		9859A8012CA28D650056F5FD /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		988705882CC100C4003655EC /* EditTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionViewController.swift; sourceTree = "<group>"; };
+		988DCEE42CD21A3E005FC47D /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		98E455E42C85A1250033AE0D /* Moneta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moneta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E455E72C85A1250033AE0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98E455E92C85A1250033AE0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -99,6 +103,7 @@
 				98EE4A7B2CC67565005E3E86 /* EditTransactionViewControllerDelegate.swift */,
 				9859A7FA2C99D59C0056F5FD /* ViewModel.swift */,
 				9859A7F62C99D55D0056F5FD /* Transaction.swift */,
+				988DCEE42CD21A3E005FC47D /* AppError.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -118,6 +123,7 @@
 		9859A8002CA28D490056F5FD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				980B72242CD37A7E0042B717 /* UIViewController+Extension.swift */,
 				9859A8012CA28D650056F5FD /* UIView+Extension.swift */,
 				9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */,
 				9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */,
@@ -255,11 +261,13 @@
 			files = (
 				9846B4BA2CAD558B0098A2D3 /* TransactionMapper.swift in Sources */,
 				980DF0A62CB42D6100CE612B /* TransactionDetailViewController.swift in Sources */,
+				988DCEE52CD21A3E005FC47D /* AppError.swift in Sources */,
 				9859A7F72C99D55D0056F5FD /* Transaction.swift in Sources */,
 				9859A7F52C99D51A0056F5FD /* NewTransactionViewController.swift in Sources */,
 				9859A7F92C99D57D0056F5FD /* TransactionSwiftDataManager.swift in Sources */,
 				9846B4B72CAD4C4F0098A2D3 /* TransactionSwitData.swift in Sources */,
 				98E455EC2C85A1250033AE0D /* MainViewController.swift in Sources */,
+				980B72252CD37A7E0042B717 /* UIViewController+Extension.swift in Sources */,
 				98E455E82C85A1250033AE0D /* AppDelegate.swift in Sources */,
 				9846B4B32CAAF7810098A2D3 /* UITextField+Extension.swift in Sources */,
 				98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */,

@@ -45,12 +45,7 @@ class EditTransactionViewController: UIViewController {
         titleTextField.layer.cornerRadius = 10
         titleTextField.layer.masksToBounds = true
         titleTextField.backgroundColor = .systemGray5
-        titleTextField.attributedPlaceholder = NSAttributedString(string: transaction.title,
-                                                                  attributes: [
-                                                                    .foregroundColor: UIColor.lightGray,
-                                                                    .font: UIFont.italicSystemFont(ofSize: 12)
-                                                                  ])
-
+        titleTextField.text = transaction.title
         return titleTextField
     }()
 
@@ -73,11 +68,8 @@ class EditTransactionViewController: UIViewController {
         amountTextField.backgroundColor = .systemGray5
         amountTextField.widthAnchor.constraint(equalToConstant: 300).isActive = true
         amountTextField.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        amountTextField.attributedPlaceholder = NSAttributedString(string: String(transaction.amount),
-                                                                   attributes: [
-                                                                     .foregroundColor: UIColor.lightGray,
-                                                                     .font: UIFont.italicSystemFont(ofSize: 12)
-                                                                   ])
+        amountTextField.text = String(transaction.amount)
+        amountTextField.keyboardType = .decimalPad
         return amountTextField
     }()
 
@@ -110,33 +102,22 @@ class EditTransactionViewController: UIViewController {
         hideKeyboardWhenTappedAround()
     }
 
-    private func getTitleTextFieldValue() -> String {
-        guard let titleText = titleTextField.text else {
-            print("Error: El título de la transacción no es válido")
-            return "Hola Caracola"
+    private func getTitleTextFieldValue() throws -> String {
+        guard let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !titleText.isEmpty
+        else {
+            throw AppError.editTitleTransactionError
         }
-
-        if titleTextField.text?.isEmpty == true {
-            return transaction.title
-        } else {
-            return titleText
-        }
+        return titleText
     }
 
-    private func getAmountTextFieldValue() -> Int {
+    private func getAmountTextFieldValue() throws -> Int {
         guard let amountText = amountTextField.text,
               let amount = Int(amountText), amount > 0
         else {
-            print("Amount no ha cambiado")
-            return transaction.amount
+            throw AppError.editAmountTransactionError
         }
-
-
-        if amountTextField.text?.isEmpty == true {
-            return transaction.amount
-        } else {
-            return amount
-        }
+        return amount
     }
 
     private func indexForTransactionType() -> Int {
@@ -148,7 +129,7 @@ class EditTransactionViewController: UIViewController {
         }
     }
 
-    private func getSelectedIndexSegmentedControl() -> Transaction.TransactionType{
+    private func getSelectedIndexSegmentedControl() -> Transaction.TransactionType {
         let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
         let transactionType: Transaction.TransactionType = selectedIndexSegmentedControl == 0 ? .expense : .income
         return transactionType
@@ -156,14 +137,20 @@ class EditTransactionViewController: UIViewController {
 
     @objc func saveButtonTapped() {
         transaction.type = getSelectedIndexSegmentedControl()
-        transaction.title = getTitleTextFieldValue()
-        transaction.amount = getAmountTextFieldValue()
-
-        delegate?.didUpdateTransaction(transaction)
-
-        viewmodel.updateTransaction(self.transaction)
-        viewmodel.loadTransactions()
-        dismiss(animated: true)
+        do {
+            try transaction.title = getTitleTextFieldValue()
+            do {
+                try transaction.amount = getAmountTextFieldValue()
+                delegate?.didUpdateTransaction(transaction)
+                viewmodel.updateTransaction(self.transaction)
+                viewmodel.loadTransactions()
+                dismiss(animated: true)
+            } catch {
+                showAlert(message: error.localizedDescription)
+            }
+        } catch {
+            showAlert(message: error.localizedDescription)
+        }
     }
 
     private func hideKeyboardWhenTappedAround() {
@@ -192,22 +179,12 @@ class EditTransactionViewController: UIViewController {
             amountLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             amountTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 48),
-
             titleLabel.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 48),
-
-//            titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 48),
             titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-//            view.trailingAnchor.constraint(equalTo: titleTextField.trailingAnchor, constant: 48),
-
             amountLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 48),
-
-//            amountTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 48),
             amountTextField.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 12),
-//            view.trailingAnchor.constraint(equalTo: amountTextField.trailingAnchor, constant: 48),
             view.bottomAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 64)
         ])
     }
-
 }

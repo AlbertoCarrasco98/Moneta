@@ -133,31 +133,48 @@ class NewTransactionViewController: UIViewController {
         hideKeyboardWhenTappedAround()
     }
 
-    private func addTransaction() {
+    private func getTitleTextFieldValue() throws -> String {
+        guard let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !titleText.isEmpty
+        else {
+            throw AppError.newTransactionTitleError
+        }
+        return titleText
+    }
+
+    private func getAmountTextFieldValue() throws -> Int {
         guard let amountText = amountTextField.text,
-              let amount = Int(amountText) else {
-            print("Error: La cantidad no es un número válido")
-            return
-        }
+              let amount = Int(amountText), !amountText.isEmpty
+                else {
+            throw AppError.newTransactionAmountError
+                }
+        return amount
+    }
 
-        guard let titleText = titleTextField.text else {
-            print("Error: El título de la transacción no es válido")
-            return
-        }
 
+    private func addTransaction() {
         let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
         let transactionType: Transaction.TransactionType = selectedIndexSegmentedControl == 0 ? .expense : .income
 
-        viewModel.saveTransaction(Transaction(id: UUID(),
-                                              amount: amount,
-                                              title: titleText,
-                                              type: transactionType,
-                                              date: Date()))
+        do {
+            let title = try getTitleTextFieldValue()
+            do {
+                let amount = try getAmountTextFieldValue()
+                viewModel.saveTransaction(Transaction(id: UUID(),
+                                                      amount: amount,
+                                                      title: title,
+                                                      type: transactionType,
+                                                      date: Date()))
+            } catch {
+                showAlert(message: error.localizedDescription)
+            }
+        } catch {
+            showAlert(message: error.localizedDescription)
+        }
     }
 
     @objc func addButtonTapped() {
         addTransaction()
-        print(viewModel.transactions)
         navigationController?.popViewController(animated: true)
     }
 

@@ -7,8 +7,10 @@ class MainViewController: UIViewController {
             SpacerView(axis: .vertical, space: 50),
             tableView,
             SpacerView(axis: .vertical, space: 50),
-            bottonStackView,
-            SpacerView(axis: .vertical, space: 40)
+            buttonStackView,
+            SpacerView(axis: .vertical, space: 8),
+            labelStackView,
+            SpacerView(axis: .vertical, space: 10)
         ])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -17,7 +19,7 @@ class MainViewController: UIViewController {
         return stackView
     }()
 
-    private lazy var bottonStackView: UIStackView = {
+    private lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
             SpacerView(axis: .horizontal, space: 140),
             addTransactionButton,
@@ -28,12 +30,21 @@ class MainViewController: UIViewController {
         return stackView
     }()
 
+    private lazy var labelStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            SpacerView(axis: .horizontal, space: 100),
+            addTransactionLabel,
+            SpacerView(axis: .horizontal, space: 110)
+        ])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        return stackView
+    }()
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.layer.borderWidth = 2
-        tableView.layer.borderColor = UIColor.systemBlue.cgColor
-        tableView.layer.cornerRadius = 10
+        tableView.separatorStyle = .none
         tableView.register(CustomTransactionwCell.self, forCellReuseIdentifier: "CustomTransactionCell")
         tableView.dataSource = self
         tableView.delegate = self
@@ -47,11 +58,27 @@ class MainViewController: UIViewController {
         button.setTitleColor(.systemBlue, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = .systemFont(ofSize: 30)
-        button.layer.borderWidth = 5
+        button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.systemBlue.cgColor
         button.layer.cornerRadius = 25
+        button.backgroundColor = UIColor(red: 0.3, green: 0.55, blue: 1, alpha: 0.5)
+        button.clipsToBounds = true
+
+        button.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
         button.addTarget(self, action: #selector(addTransactionButtonTapped), for: .touchUpInside)
         return button
+    }()
+
+    private lazy var addTransactionLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Añadir transacción"
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 12)
+        label.textColor = .systemGray4
+        return label
     }()
 
     private let viewModel: ViewModel
@@ -120,5 +147,9 @@ extension MainViewController: UITableViewDelegate {
         let vc = TransactionDetailViewController(viewModel: viewModel,
                                                  transaction: viewModel.transactions[indexPath.row])
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        80
     }
 }

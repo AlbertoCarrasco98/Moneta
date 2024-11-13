@@ -6,7 +6,7 @@ class MainViewController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: [
             SpacerView(axis: .vertical, space: 50),
             tableView,
-            SpacerView(axis: .vertical, space: 50),
+//            SpacerView(axis: .vertical, space: 50),
             buttonStackView,
             SpacerView(axis: .vertical, space: 8),
             labelStackView,
@@ -95,6 +95,7 @@ class MainViewController: UIViewController {
     override func loadView() {
         super.loadView()
         setupUI()
+        print(viewModel.transactionsSortedByDate)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -125,18 +126,28 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        viewModel.transactionsSortedByDate.count
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.transactions.count
+//        viewModel.transactions.count
+        viewModel.transactionsSortedByDate[section].1.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTransactionCell", for: indexPath) as! CustomTransactionwCell
 
-        let transaction = viewModel.transactions[indexPath.row]
+//        let transaction = viewModel.transactions[indexPath.row]
+        let transaction = viewModel.transactionsSortedByDate[indexPath.section].1[indexPath.row]
 
         cell.configure(with: transaction)
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        viewModel.transactionsSortedByDate[section].0
     }
 }
 

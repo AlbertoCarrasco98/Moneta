@@ -88,14 +88,4 @@ class CustomTransactionwCell: UITableViewCell {
             amountLabel.textColor = .systemGreen
         }
     }
-
-    private func configureDateString(for transaction: Transaction) -> String {
-        let date = transaction.date
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .short
-
-        let dateString = dateFormatter.string(from: date)
-        return dateString
-    }
 }

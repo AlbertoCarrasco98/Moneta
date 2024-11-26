@@ -2,45 +2,6 @@ import UIKit
 
 class MainViewController: UIViewController {
 
-    private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            SpacerView(axis: .vertical, space: 50),
-            tableView,
-//            SpacerView(axis: .vertical, space: 50),
-            buttonStackView,
-            SpacerView(axis: .vertical, space: 8),
-            labelStackView,
-            SpacerView(axis: .vertical, space: 10)
-        ])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
-        return stackView
-    }()
-
-    private lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            SpacerView(axis: .horizontal, space: 140),
-            addTransactionButton,
-            SpacerView(axis: .horizontal, space: 140)
-        ])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
-        return stackView
-    }()
-
-    private lazy var labelStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            SpacerView(axis: .horizontal, space: 100),
-            addTransactionLabel,
-            SpacerView(axis: .horizontal, space: 110)
-        ])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
-        return stackView
-    }()
-
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,6 +10,16 @@ class MainViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         return tableView
+    }()
+
+    private lazy var buttonAndLabelStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(addTransactionButton)
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.alignment = .center
+        return stackView
     }()
 
     private lazy var addTransactionButton: UIButton = {
@@ -63,7 +34,6 @@ class MainViewController: UIViewController {
         button.layer.cornerRadius = 25
         button.backgroundColor = UIColor(red: 0.3, green: 0.55, blue: 1, alpha: 0.5)
         button.clipsToBounds = true
-
         button.widthAnchor.constraint(equalToConstant: 50).isActive = true
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
@@ -71,17 +41,52 @@ class MainViewController: UIViewController {
         return button
     }()
 
-    private lazy var addTransactionLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Añadir transacción"
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 12)
-        label.textColor = .systemGray4
-        return label
-    }()
-
     private let viewModel: ViewModel
+
+    // Propiedad computada, toma el valor cuando se la llama, por lo que las transaccioenes siempre estaran actualizadas ya que accede al valor de viewmode.transactions en cada momento que se le llame
+//    var groupedTransactions: [(String, [Transaction])] {
+//
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "d MMM yyyy"
+//        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+//
+//        // grouped es un diccionario donde la clave es un String (fecha de la transaccion pasada a String, linea 53) y el valor es un [Transaction] el cual contiene las transacciones que hay en dicha fecha
+//        let grouped = Dictionary(grouping: viewModel.transactions) { transaction in
+//            dateFormatter.string(from: transaction.date)
+//        }
+//
+//        // sortedGrouped es un array de tuplas donde el valor 0 es un String (fecha de la transaccion) y el valor 1 es un [Transaction] el cual contiene las transacciones que hay en dicha fecha
+//        let sortedGrouped = grouped
+//            .map { (key, value) in
+//                (key, value)
+//            }
+//            .sorted { $0.0 > $1.0 }
+//        return sortedGrouped
+//    }
+
+    var groupedTransactions: [(String, [Transaction])] {
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMM yyyy"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        let sortedTransactions = viewModel.transactions.sorted { $0.date > $1.date }
+
+        let grouped = Dictionary(grouping: sortedTransactions) { transaction in
+            dateFormatter.string(from: transaction.date)
+        }
+
+        let sortedGrouped = grouped.sorted { (firstGroup, secondGroup) in
+            guard
+                let firstDate = dateFormatter.date(from: firstGroup.key),
+                let secondDate = dateFormatter.date(from: secondGroup.key)
+            else {
+                return false
+            }
+            return firstDate > secondDate
+        }
+        return sortedGrouped
+    }
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -95,7 +100,19 @@ class MainViewController: UIViewController {
     override func loadView() {
         super.loadView()
         setupUI()
-        print(viewModel.transactionsSortedByDate)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let fechas = viewModel.transactions.map { $0.date }
+        for fecha in fechas {
+            print(fecha)
+        }
+//        print(viewModel.transactions.map { "\($0.date)" }.joined(separator: "\n"))
+
+//        for transaction in viewModel.transactions {
+//            print(transaction.date)
+//        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -109,37 +126,47 @@ class MainViewController: UIViewController {
         addConstraints()
     }
 
-    private func addConstraints() {
-        view.addSubview(mainStackView)
-        NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor)
-        ])
-    }
-
     @objc private func addTransactionButtonTapped() {
         let vc = NewTransactionViewController(viewModel: self.viewModel)
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func addConstraints() {
+        view.addSubview(tableView)
+        view.addSubview(buttonAndLabelStackView)
+
+        // tableView
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: 8),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
+
+            // buttonAndLabelStackView
+            buttonAndLabelStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: buttonAndLabelStackView.trailingAnchor),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: buttonAndLabelStackView.bottomAnchor, constant: 8)
+        ])
     }
 }
 
 extension MainViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.transactionsSortedByDate.count
+        groupedTransactions.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        viewModel.transactions.count
-        viewModel.transactionsSortedByDate[section].1.count
+        let fechas = groupedTransactions[section]
+        return fechas.1.count
+
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTransactionCell", for: indexPath) as! CustomTransactionwCell
 
-//        let transaction = viewModel.transactions[indexPath.row]
-        let transaction = viewModel.transactionsSortedByDate[indexPath.section].1[indexPath.row]
+        let grupoDeTransacciones = groupedTransactions[indexPath.section]
+
+        let transaction = grupoDeTransacciones.1[indexPath.row]
 
         cell.configure(with: transaction)
 
@@ -147,7 +174,8 @@ extension MainViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        viewModel.transactionsSortedByDate[section].0
+        let fecha = groupedTransactions[section]
+        return fecha.0
     }
 }
 
@@ -155,8 +183,11 @@ extension MainViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let grupoDeTransacciones = groupedTransactions[indexPath.section]
+        let transaction = grupoDeTransacciones.1[indexPath.row]
+
         let vc = TransactionDetailViewController(viewModel: viewModel,
-                                                 transaction: viewModel.transactions[indexPath.row])
+                                                 transaction: transaction)
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -164,3 +195,4 @@ extension MainViewController: UITableViewDelegate {
         80
     }
 }
+

@@ -31,6 +31,7 @@
 		98E455F12C85A1280033AE0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98E455F02C85A1280033AE0D /* Assets.xcassets */; };
 		98E455F42C85A1280033AE0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E455F22C85A1280033AE0D /* LaunchScreen.storyboard */; };
 		98EE4A7C2CC67565005E3E86 /* EditTransactionViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE4A7B2CC67565005E3E86 /* EditTransactionViewControllerDelegate.swift */; };
+		98EEF6792CF49DD600593214 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EEF6782CF49DD600593214 /* Dictionary+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		98E455F32C85A1280033AE0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		98E455F52C85A1280033AE0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98EE4A7B2CC67565005E3E86 /* EditTransactionViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionViewControllerDelegate.swift; sourceTree = "<group>"; };
+		98EEF6782CF49DD600593214 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,11 +127,12 @@
 		9859A8002CA28D490056F5FD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */,
+				98057C2A2CE339D00003AA65 /* TransactionDateFormatter.swift */,
 				980B72242CD37A7E0042B717 /* UIViewController+Extension.swift */,
 				9859A8012CA28D650056F5FD /* UIView+Extension.swift */,
 				9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */,
-				9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */,
-				98057C2A2CE339D00003AA65 /* TransactionDateFormatter.swift */,
+				98EEF6782CF49DD600593214 /* Dictionary+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				988DCEE52CD21A3E005FC47D /* AppError.swift in Sources */,
 				98057C2B2CE339D00003AA65 /* TransactionDateFormatter.swift in Sources */,
 				9859A7F72C99D55D0056F5FD /* Transaction.swift in Sources */,
+				98EEF6792CF49DD600593214 /* Dictionary+Extension.swift in Sources */,
 				9859A7F52C99D51A0056F5FD /* NewTransactionViewController.swift in Sources */,
 				9859A7F92C99D57D0056F5FD /* TransactionSwiftDataManager.swift in Sources */,
 				9846B4B72CAD4C4F0098A2D3 /* TransactionSwitData.swift in Sources */,

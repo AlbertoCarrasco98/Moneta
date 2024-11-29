@@ -47,7 +47,7 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
         label.heightAnchor.constraint(equalToConstant: 60).isActive = true
         label.text = String(transaction.amount)
         label.font = .boldSystemFont(ofSize: 30)
-        label.textColor = colorAmountLabel()
+        label.textColor = UIColor.colorAmountLabel(transaction: transaction)
         label.textAlignment = .center
         label.backgroundColor = .systemGray5
         label.layer.cornerRadius = 10
@@ -55,15 +55,6 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
 
         return label
     }()
-
-    private func colorAmountLabel() -> UIColor {
-        switch transaction.type {
-            case .income:
-                return UIColor(red: 0.2, green: 0.8, blue: 0.2, alpha: 1.0)
-            case .expense:
-                return UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
-        }
-    }
 
     init(viewModel: ViewModel, transaction: Transaction) {
         self.transaction = transaction
@@ -155,6 +146,7 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
         self.transaction = transaction
         titleLabel.text = transaction.title
         amountLabel.text = String(transaction.amount)
+        amountLabel.textColor = UIColor.colorAmountLabel(transaction: transaction)
     }
 
     private func addCosntraints() {

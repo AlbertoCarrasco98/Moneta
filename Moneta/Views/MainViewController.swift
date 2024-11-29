@@ -6,20 +6,11 @@ class MainViewController: UIViewController {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         tableView.register(CustomTransactionwCell.self, forCellReuseIdentifier: "CustomTransactionCell")
         tableView.dataSource = self
         tableView.delegate = self
         return tableView
-    }()
-
-    private lazy var buttonAndLabelStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(addTransactionButton)
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        stackView.alignment = .center
-        return stackView
     }()
 
     private lazy var addTransactionButton: UIButton = {
@@ -34,35 +25,28 @@ class MainViewController: UIViewController {
         button.layer.cornerRadius = 25
         button.backgroundColor = UIColor(red: 0.3, green: 0.55, blue: 1, alpha: 0.5)
         button.clipsToBounds = true
-        button.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
         button.addTarget(self, action: #selector(addTransactionButtonTapped), for: .touchUpInside)
         return button
     }()
 
-    private let viewModel: ViewModel
+    private lazy var expensesLabel: UILabel = {
+        let expensesAmountLabel = UILabel()
+        expensesAmountLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        expensesAmountLabel.textColor = .systemRed
+        expensesAmountLabel.textAlignment = .center
+        return expensesAmountLabel
+    }()
 
-    // Propiedad computada, toma el valor cuando se la llama, por lo que las transaccioenes siempre estaran actualizadas ya que accede al valor de viewmode.transactions en cada momento que se le llame
-//    var groupedTransactions: [(String, [Transaction])] {
-//
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "d MMM yyyy"
-//        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-//
-//        // grouped es un diccionario donde la clave es un String (fecha de la transaccion pasada a String, linea 53) y el valor es un [Transaction] el cual contiene las transacciones que hay en dicha fecha
-//        let grouped = Dictionary(grouping: viewModel.transactions) { transaction in
-//            dateFormatter.string(from: transaction.date)
-//        }
-//
-//        // sortedGrouped es un array de tuplas donde el valor 0 es un String (fecha de la transaccion) y el valor 1 es un [Transaction] el cual contiene las transacciones que hay en dicha fecha
-//        let sortedGrouped = grouped
-//            .map { (key, value) in
-//                (key, value)
-//            }
-//            .sorted { $0.0 > $1.0 }
-//        return sortedGrouped
-//    }
+    private lazy var incomesLabel: UILabel = {
+        let incomesAmountLabel = UILabel()
+        incomesAmountLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        incomesAmountLabel.text = String(viewModel.calculateTotalIncomes())
+        incomesAmountLabel.textColor = .systemGreen
+        incomesAmountLabel.textAlignment = .center
+        return incomesAmountLabel
+    }()
+
+    private let viewModel: ViewModel
 
     var groupedTransactions: [(String, [Transaction])] {
 
@@ -102,28 +86,28 @@ class MainViewController: UIViewController {
         setupUI()
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let fechas = viewModel.transactions.map { $0.date }
-        for fecha in fechas {
-            print(fecha)
-        }
-//        print(viewModel.transactions.map { "\($0.date)" }.joined(separator: "\n"))
-
-//        for transaction in viewModel.transactions {
-//            print(transaction.date)
-//        }
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        updateLabels()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        adjustTableHeaderViewSize()
     }
 
     private func setupUI() {
         title = "Historial de transacciones"
         view.backgroundColor = .systemBackground
         addConstraints()
+        tableView.tableHeaderView = labelsView
+        adjustTableHeaderViewSize()
+    }
+
+    private func updateLabels() {
+        expensesLabel.text = String(viewModel.calculateTotalExpenses())
+        incomesLabel.text = String(viewModel.calculateTotalIncomes())
     }
 
     @objc private func addTransactionButtonTapped() {
@@ -131,23 +115,75 @@ class MainViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
 
+    private func adjustTableHeaderViewSize() {
+        guard let headerView = tableView.tableHeaderView else { return }
+        headerView.frame.size.width = tableView.bounds.width
+        headerView.layoutIfNeeded()
+        tableView.tableHeaderView = headerView
+    }
+
     private func addConstraints() {
         view.addSubview(tableView)
-        view.addSubview(buttonAndLabelStackView)
+        view.addSubview(addTransactionButton)
 
-        // tableView
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: 8),
+            // tableView
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: 12),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
 
-            // buttonAndLabelStackView
-            buttonAndLabelStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: buttonAndLabelStackView.trailingAnchor),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: buttonAndLabelStackView.bottomAnchor, constant: 8)
+            // addTransactionButton
+            addTransactionButton.widthAnchor.constraint(equalToConstant: 50),
+            addTransactionButton.heightAnchor.constraint(equalToConstant: 50),
+            addTransactionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: addTransactionButton.bottomAnchor, constant: 8)
         ])
     }
+
+    private lazy var labelsView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 50))
+        view.backgroundColor = .clear
+
+        let expensesTitleLabel = UILabel()
+        let incomesTitleLabel = UILabel()
+
+        expensesTitleLabel.font = .systemFont(ofSize: 14, weight: .bold)
+        expensesTitleLabel.text = "Mis Gastos"
+        expensesTitleLabel.textAlignment = .center
+        incomesTitleLabel.font = .systemFont(ofSize: 14, weight: .bold)
+        incomesTitleLabel.text = "Mis Ingresos"
+        incomesTitleLabel.textAlignment = .center
+
+        // ExpensesStackView
+        let expensesStackView = UIStackView(arrangedSubviews: [expensesTitleLabel, expensesLabel])
+        expensesStackView.axis = .vertical
+        expensesStackView.spacing = 8
+        expensesStackView.distribution = .fillEqually
+
+        // IncomesStackView
+        let incomesStackView = UIStackView(arrangedSubviews: [incomesTitleLabel, incomesLabel])
+        incomesStackView.axis = .vertical
+        incomesStackView.spacing = 8
+        incomesStackView.distribution = .fillEqually
+
+        // MainStackView
+        let mainStackView = UIStackView(arrangedSubviews: [expensesStackView, incomesStackView])
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        mainStackView.axis = .horizontal
+        mainStackView.spacing = 20
+        mainStackView.distribution = .fillEqually
+
+        // Agrego todo a la view
+        view.addSubview(mainStackView)
+        NSLayoutConstraint.activate([
+            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: view.topAnchor),
+            view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
+            view.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor),
+        ])
+        return view
+    }()
 }
 
 extension MainViewController: UITableViewDataSource {
@@ -195,4 +231,3 @@ extension MainViewController: UITableViewDelegate {
         80
     }
 }
-

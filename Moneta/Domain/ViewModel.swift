@@ -45,7 +45,6 @@ class ViewModel {
         loadTransactions()
     }
 
-
     func calculateTotalExpenses() -> Double {
         let expenses = transactions
             .filter { $0.type == .expense }

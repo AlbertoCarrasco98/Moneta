@@ -112,7 +112,7 @@ class MainViewController: UIViewController {
 
     @objc private func addTransactionButtonTapped() {
         let vc = NewTransactionViewController(viewModel: self.viewModel)
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController?.present(vc, animated: true)
     }
 
     private func adjustTableHeaderViewSize() {

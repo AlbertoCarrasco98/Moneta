@@ -29,8 +29,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let balanceNavController = UINavigationController(rootViewController: balanceVC)
 
         let tabBar = UITabBarController()
-        tabBar.viewControllers = [mainNavController, balanceNavController]
-        window.rootViewController = tabBar
+        tabBar.viewControllers = [mainNavController]
+        window.rootViewController = mainVC
 
         self.window = window
         window.makeKeyAndVisible()

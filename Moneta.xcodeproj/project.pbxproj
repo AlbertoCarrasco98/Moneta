@@ -24,6 +24,7 @@
 		9859A8022CA28D650056F5FD /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9859A8012CA28D650056F5FD /* UIView+Extension.swift */; };
 		988705892CC100C4003655EC /* EditTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988705882CC100C4003655EC /* EditTransactionViewController.swift */; };
 		988DCEE52CD21A3E005FC47D /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988DCEE42CD21A3E005FC47D /* AppError.swift */; };
+		98A966EB2CFA095F0091AFB4 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A966EA2CFA095F0091AFB4 /* CustomButton.swift */; };
 		98E455E82C85A1250033AE0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455E72C85A1250033AE0D /* AppDelegate.swift */; };
 		98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455E92C85A1250033AE0D /* SceneDelegate.swift */; };
 		98E455EC2C85A1250033AE0D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E455EB2C85A1250033AE0D /* MainViewController.swift */; };
@@ -52,6 +53,7 @@
 		9859A8012CA28D650056F5FD /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		988705882CC100C4003655EC /* EditTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionViewController.swift; sourceTree = "<group>"; };
 		988DCEE42CD21A3E005FC47D /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		98A966EA2CFA095F0091AFB4 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		98E455E42C85A1250033AE0D /* Moneta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moneta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E455E72C85A1250033AE0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98E455E92C85A1250033AE0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		9859A8002CA28D490056F5FD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				98A966EA2CFA095F0091AFB4 /* CustomButton.swift */,
 				9846B4B42CAC07300098A2D3 /* CustomTransactionCell.swift */,
 				98057C2A2CE339D00003AA65 /* TransactionDateFormatter.swift */,
 				980B72242CD37A7E0042B717 /* UIViewController+Extension.swift */,
@@ -282,6 +285,7 @@
 				9859A7FF2CA14F7F0056F5FD /* BalanceViewController.swift in Sources */,
 				9859A8022CA28D650056F5FD /* UIView+Extension.swift in Sources */,
 				988705892CC100C4003655EC /* EditTransactionViewController.swift in Sources */,
+				98A966EB2CFA095F0091AFB4 /* CustomButton.swift in Sources */,
 				980DF0AA2CB959F400CE612B /* VCAssembler.swift in Sources */,
 				9846B4BC2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift in Sources */,
 				9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */,

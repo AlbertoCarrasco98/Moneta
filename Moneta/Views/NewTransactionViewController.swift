@@ -1,117 +1,11 @@
 import UIKit
 
 class NewTransactionViewController: UIViewController {
-
-    private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            SpacerView(axis: .vertical, space: 12),
-            segmentedControlStackView,
-            SpacerView(axis: .vertical, space: 70),
-            titleTextFieldStackView,
-            SpacerView(axis: .vertical, space: 100),
-            amountTextFieldStackView,
-            UIView(),
-            addTransactionButtonStackView,
-            SpacerView(axis: .vertical, space: 24)
-        ])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-
-        return stackView
-    }()
-
-    private lazy var segmentedControlStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            SpacerView(axis: .horizontal, space: 60),
-            segmentedControl,
-            SpacerView(axis: .horizontal, space: 60)
-        ])
-
-        return stackView
-    }()
-
-
-    private lazy var segmentedControl: UISegmentedControl = {
-        let items = ["Gasto", "Ingreso"]
-        let segmentedControl = UISegmentedControl(items: items)
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.layer.borderWidth = 2
-        segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
-        segmentedControl.addTarget(self, action: #selector(updatePlaceholderTitleTextfield), for: .valueChanged)
-        return segmentedControl
-    }()
-
-    private lazy var titleTextFieldStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            SpacerView(axis: .horizontal, space: 50),
-            titleTextField,
-            SpacerView(axis: .horizontal, space: 50)
-        ])
-        stackView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-        return stackView
-    }()
-
-    private lazy var titleTextField: UITextField = {
-        let titleTextField = InsetTextField(spacing: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0))
-        titleTextField.layer.borderWidth = 2
-        titleTextField.layer.borderColor = UIColor.systemBlue.cgColor
-        titleTextField.layer.cornerRadius = 10
-        titleTextField.layer.masksToBounds = true
-        titleTextField.attributedPlaceholder = NSAttributedString(string: "Ingresa un título para el nuevo gasto", attributes: [
-            .foregroundColor: UIColor.lightGray,
-            .font: UIFont.italicSystemFont(ofSize: 12)
-        ])
-        return titleTextField
-    }()
-
-    private lazy var amountTextFieldStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            SpacerView(axis: .horizontal, space: 80),
-            amountTextField,
-            SpacerView(axis: .horizontal, space: 80)
-        ])
-        stackView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-        return stackView
-    }()
-
-    private lazy var amountTextField: UITextField = {
-        let textField = InsetTextField(spacing: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0))
-        textField.layer.borderWidth = 2
-        textField.layer.borderColor = UIColor.systemBlue.cgColor
-        textField.layer.cornerRadius = 10
-        textField.layer.masksToBounds = true
-        textField.attributedPlaceholder = NSAttributedString(string: "Ingresa una cantidad", attributes: [
-            .foregroundColor: UIColor.lightGray,
-            .font: UIFont.italicSystemFont(ofSize: 12)
-        ])
-        textField.keyboardType = .decimalPad
-        return textField
-    }()
-
-    private lazy var addTransactionButtonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            SpacerView(axis: .horizontal, space: 100),
-            addTransactionButton,
-            SpacerView(axis: .horizontal, space: 100)
-        ])
-        stackView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-        return stackView
-    }()
-
-    private lazy var addTransactionButton: UIButton = {
-        let addButton = UIButton()
-        addButton.layer.cornerRadius = 10
-        addButton.setTitle("Añadir movimiento", for: .normal)
-        addButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        addButton.backgroundColor = .systemBlue
-        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-        return addButton
-    }()
+    //    MARK: - Properties
 
     private let viewModel: ViewModel
+
+    //    MARK: - Initializers
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -122,10 +16,94 @@ class NewTransactionViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    //    MARK: - UI Elements
+
+    private lazy var segmentedControl: UISegmentedControl = {
+        let items = ["Gasto", "Ingreso"]
+        let segmentedControl = UISegmentedControl(items: items)
+
+        segmentedControl.selectedSegmentIndex = 0
+
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.widthAnchor.constraint(equalToConstant: 300).isActive = true
+
+        segmentedControl.addTarget(self, action: #selector(updatePlaceholderTitleTextfield), for: .valueChanged)
+
+        return segmentedControl
+    }()
+
+    lazy var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        titleLabel.text = "Título"
+        titleLabel.font = .boldSystemFont(ofSize: 22)
+
+        return titleLabel
+    }()
+
+    private lazy var titleTextField: UITextField = {
+        let titleTextField = InsetTextField(spacing: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0))
+        titleTextField.translatesAutoresizingMaskIntoConstraints = false
+        titleTextField.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        titleTextField.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        titleTextField.layer.cornerRadius = 10
+        titleTextField.layer.masksToBounds = true
+        titleTextField.backgroundColor = .systemGray5
+
+        titleTextField.attributedPlaceholder = NSAttributedString(string: "Ingresa un título para el nuevo gasto", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: UIFont.italicSystemFont(ofSize: 12)
+        ])
+
+        return titleTextField
+    }()
+
+    lazy var amountLabel: UILabel = {
+        let amountLabel = UILabel()
+        amountLabel.translatesAutoresizingMaskIntoConstraints = false
+        amountLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        amountLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        amountLabel.text = "Cantidad"
+        amountLabel.font = .boldSystemFont(ofSize: 22)
+
+        return amountLabel
+    }()
+
+    private lazy var amountTextField: UITextField = {
+        let amountTextField = InsetTextField(spacing: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0))
+        amountTextField.translatesAutoresizingMaskIntoConstraints = false
+        amountTextField.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        amountTextField.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        amountTextField.layer.cornerRadius = 10
+        amountTextField.layer.masksToBounds = true
+        amountTextField.backgroundColor = .systemGray5
+
+        amountTextField.attributedPlaceholder = NSAttributedString(string: "Ingresa una cantidad", attributes: [
+            .foregroundColor: UIColor.lightGray,
+            .font: UIFont.italicSystemFont(ofSize: 12)
+        ])
+        amountTextField.keyboardType = .decimalPad
+
+        return amountTextField
+    }()
+
+    private lazy var addTransactionButton: CustomButton = {
+        let addButton = CustomButton()
+        addButton.setTitle("Añadir movimiento", for: .normal)
+        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        return addButton
+    }()
+
+    //    MARK: - LifeCycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
+
+    //    MARK: - Setup Methods
 
     private func setupUI() {
         view.backgroundColor = .systemBackground
@@ -133,54 +111,39 @@ class NewTransactionViewController: UIViewController {
         hideKeyboardWhenTappedAround()
     }
 
-    private func getTitleTextFieldValue() throws -> String {
-        guard let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !titleText.isEmpty
-        else {
-            throw AppError.newTransactionTitleError
-        }
-        return titleText
+    private func addConstraints() {
+        view.addSubview(segmentedControl)
+        view.addSubview(titleLabel)
+        view.addSubview(titleTextField)
+        view.addSubview(amountLabel)
+        view.addSubview(amountTextField)
+        view.addSubview(addTransactionButton)
+
+        NSLayoutConstraint.activate([
+            segmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            amountLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            amountTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addTransactionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 48),
+            titleLabel.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 48),
+            titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+            amountLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 48),
+            amountTextField.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 12),
+            view.bottomAnchor.constraint(equalTo: addTransactionButton.bottomAnchor, constant: 64)
+        ])
     }
 
-    private func getAmountTextFieldValue() throws -> Int {
-        guard let amountText = amountTextField.text,
-              let amount = Int(amountText), !amountText.isEmpty
-                else {
-            throw AppError.newTransactionAmountError
-                }
-        return amount
-    }
-
-
-    private func addTransaction() {
-        let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
-        let transactionType: Transaction.TransactionType = selectedIndexSegmentedControl == 0 ? .expense : .income
-
-        do {
-            let title = try getTitleTextFieldValue()
-            do {
-                let amount = try getAmountTextFieldValue()
-                viewModel.saveTransaction(Transaction(id: UUID(),
-                                                      amount: amount,
-                                                      title: title,
-                                                      type: transactionType,
-                                                      date: Date()))
-            } catch {
-                showAlert(message: error.localizedDescription)
-            }
-        } catch {
-            showAlert(message: error.localizedDescription)
-        }
-    }
+    //    MARK: - Actions
 
     @objc func addButtonTapped() {
         addTransaction()
-        navigationController?.popViewController(animated: true)
     }
 
     @objc private func updatePlaceholderTitleTextfield() {
         let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
-
         switch selectedIndexSegmentedControl {
             case 0:
                 titleTextField.placeholder = "Ingresa un título para el nuevo gasto"
@@ -200,14 +163,46 @@ class NewTransactionViewController: UIViewController {
         view.endEditing(true)
     }
 
-    private func addConstraints() {
-        view.addSubview(mainStackView)
-        NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor)
-        ])
+    //    MARK: - Helpers
+
+    private func addTransaction() {
+        let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
+        let transactionType: Transaction.TransactionType = selectedIndexSegmentedControl == 0 ? .expense : .income
+
+        do {
+            let title = try getTitleTextFieldValue()
+            do {
+                let amount = try getAmountTextFieldValue()
+                viewModel.saveTransaction(Transaction(id: UUID(),
+                                                      amount: amount,
+                                                      title: title,
+                                                      type: transactionType,
+                                                      date: Date()))
+                dismiss(animated: true)
+            } catch {
+                showAlert(message: error.localizedDescription)
+            }
+        } catch {
+            showAlert(message: error.localizedDescription)
+        }
+    }
+
+    private func getTitleTextFieldValue() throws -> String {
+        guard let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !titleText.isEmpty
+        else {
+            throw AppError.newTransactionTitleError
+        }
+        return titleText
+    }
+
+    private func getAmountTextFieldValue() throws -> Int {
+        guard let amountText = amountTextField.text,
+              let amount = Int(amountText), !amountText.isEmpty
+        else {
+            throw AppError.newTransactionAmountError
+        }
+        return amount
     }
 }
 

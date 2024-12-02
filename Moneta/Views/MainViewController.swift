@@ -1,6 +1,6 @@
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, NewTransactionViewControllerDelegate, DeleteTransactionViewControllerDelegate {
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -110,8 +110,22 @@ class MainViewController: UIViewController {
         incomesLabel.text = String(viewModel.calculateTotalIncomes())
     }
 
+    func didCreateNewTransaction() {
+        showToast(withMessage: "Transacción creada con éxito",
+                  color: .success,
+                  position: .bottom)
+        tableView.reloadData()
+    }
+
+    func didDeleteTransaction() {
+        showToast(withMessage: "Transacción eliminada con éxito",
+                  color: .success,
+                  position: .bottom)
+    }
+
     @objc private func addTransactionButtonTapped() {
         let vc = NewTransactionViewController(viewModel: self.viewModel)
+        vc.delegate = self
         navigationController?.present(vc, animated: true)
     }
 
@@ -224,6 +238,7 @@ extension MainViewController: UITableViewDelegate {
 
         let vc = TransactionDetailViewController(viewModel: viewModel,
                                                  transaction: transaction)
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
 

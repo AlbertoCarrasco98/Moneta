@@ -4,6 +4,7 @@ class NewTransactionViewController: UIViewController {
     //    MARK: - Properties
 
     private let viewModel: ViewModel
+    weak var delegate: NewTransactionViewControllerDelegate?
 
     //    MARK: - Initializers
 
@@ -178,12 +179,17 @@ class NewTransactionViewController: UIViewController {
                                                       title: title,
                                                       type: transactionType,
                                                       date: Date()))
+                delegate?.didCreateNewTransaction()
                 dismiss(animated: true)
             } catch {
-                showAlert(message: error.localizedDescription)
+                showToast(withMessage: AppError.newTransactionAmountError.localizedDescription,
+                               color: .failure,
+                               position: .center)
             }
         } catch {
-            showAlert(message: error.localizedDescription)
+            showToast(withMessage: AppError.newTransactionTitleError.localizedDescription,
+                           color: .failure,
+                           position: .center)
         }
     }
 

@@ -4,7 +4,6 @@ class EditTransactionViewController: UIViewController {
     //    MARK: - Properties
     var viewmodel: ViewModel
     var transaction: Transaction
-
     weak var delegate: EditTransactionViewControllerDelegate?
 
     //    MARK: - Initializers
@@ -92,14 +91,14 @@ class EditTransactionViewController: UIViewController {
         return saveButton
     }()
 
-//    MARK: - LifeCycle
+    //    MARK: - LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
 
-//    MARK: - Setup Methods
+    //    MARK: - Setup Methods
 
     private func setupUI() {
         view.backgroundColor = .systemBackground
@@ -107,7 +106,7 @@ class EditTransactionViewController: UIViewController {
         addConstraint()
         hideKeyboardWhenTappedAround()
     }
-    
+
     private func hideKeyboardWhenTappedAround() {
         let tap = UITapGestureRecognizer(target: self,
                                          action: #selector(dismissKeyboard))
@@ -129,7 +128,7 @@ class EditTransactionViewController: UIViewController {
             amountLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             amountTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
+
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 48),
             titleLabel.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 48),
             titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
@@ -139,7 +138,7 @@ class EditTransactionViewController: UIViewController {
         ])
     }
 
-//    MARK: - Actions
+    //    MARK: - Actions
 
     @objc func saveButtonTapped() {
         transaction.type = getSelectedIndexSegmentedControl()
@@ -152,10 +151,14 @@ class EditTransactionViewController: UIViewController {
                 viewmodel.loadTransactions()
                 dismiss(animated: true)
             } catch {
-                showAlert(message: error.localizedDescription)
+                showToast(withMessage: AppError.editAmountTransactionError.localizedDescription,
+                          color: .failure,
+                          position: .center)
             }
         } catch {
-            showAlert(message: error.localizedDescription)
+            showToast(withMessage: AppError.editTitleTransactionError.localizedDescription,
+                      color: .failure,
+                      position: .center)
         }
     }
 
@@ -163,7 +166,7 @@ class EditTransactionViewController: UIViewController {
         view.endEditing(true)
     }
 
-//    MARK: - Helpers
+    //    MARK: - Helpers
 
     private func getTitleTextFieldValue() throws -> String {
         guard let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),

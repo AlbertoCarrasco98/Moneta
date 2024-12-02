@@ -4,6 +4,7 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
 
     var transaction: Transaction
     let viewModel: ViewModel
+    weak var delegate: DeleteTransactionViewControllerDelegate?
 
     lazy var moneyLabel: UILabel = {
         let label = UILabel()
@@ -120,6 +121,7 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
         let okAction = UIAlertAction(title: "Eliminar",
                                      style: .destructive) { UIAlertAction in
             self.viewModel.deleteTransaction(self.transaction)
+            self.delegate?.didDeleteTransaction()
             self.navigationController?.popViewController(animated: true)
         }
         let cancelAction = UIAlertAction(title: "Cancelar",

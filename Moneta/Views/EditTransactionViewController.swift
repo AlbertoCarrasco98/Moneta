@@ -2,14 +2,14 @@ import UIKit
 
 class EditTransactionViewController: UIViewController {
     //    MARK: - Properties
-    var viewmodel: ViewModel
+    private let viewModel: ViewModel
     var transaction: Transaction
     weak var delegate: EditTransactionViewControllerDelegate?
 
     //    MARK: - Initializers
 
     init(viewModel: ViewModel, transaction: Transaction) {
-        self.viewmodel = viewModel
+        self.viewModel = viewModel
         self.transaction = transaction
         super.init(nibName: nil, bundle: nil)
     }
@@ -105,12 +105,23 @@ class EditTransactionViewController: UIViewController {
         self.title = "Editar transacción"
         addConstraint()
         hideKeyboardWhenTappedAround()
+        setupErrorsHandling()
     }
 
     private func hideKeyboardWhenTappedAround() {
         let tap = UITapGestureRecognizer(target: self,
                                          action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
+    }
+
+    private func setupErrorsHandling() {
+        viewModel.onError = { [weak self] error in
+            DispatchQueue.main.async {
+                self?.showToast(withMessage: error.localizedDescription,
+                                color: .failure,
+                                position: .center)
+            }
+        }
     }
 
     private func addConstraint() {
@@ -147,8 +158,8 @@ class EditTransactionViewController: UIViewController {
             do {
                 try transaction.amount = getAmountTextFieldValue()
                 delegate?.didUpdateTransaction(transaction)
-                viewmodel.updateTransaction(self.transaction)
-                viewmodel.loadTransactions()
+                viewModel.updateTransaction(self.transaction)
+                viewModel.loadTransactions()
                 dismiss(animated: true)
             } catch {
                 showToast(withMessage: AppError.editAmountTransactionError.localizedDescription,

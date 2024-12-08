@@ -67,11 +67,6 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -99,7 +94,7 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
             self.presentDeleteTransactionAlert()
         }
         let editButtonAction = UIAction(title: "Modificar",
-                                  image: UIImage(systemName: "gear")) { action in
+                                        image: UIImage(systemName: "gear")) { action in
             self.editButtonTapped()
         }
         let menu = UIMenu(children: [editButtonAction, deleteButtonAction])
@@ -118,12 +113,28 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
         let alertController = UIAlertController(title: "Eliminar transacción",
                                                 message: "¿Estás seguro de que quieres eliminar la transacción?",
                                                 preferredStyle: .alert)
+
         let okAction = UIAlertAction(title: "Eliminar",
-                                     style: .destructive) { UIAlertAction in
-            self.viewModel.deleteTransaction(self.transaction)
-            self.delegate?.didDeleteTransaction()
-            self.navigationController?.popViewController(animated: true)
+                                     style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+
+            self.viewModel.deleteTransaction(self.transaction) { [weak self] result in
+                guard let self = self else { return }
+
+                DispatchQueue.main.async {
+                    switch result {
+                        case .success:
+                            self.delegate?.didDeleteTransaction()
+                            self.navigationController?.popViewController(animated: true)
+                        case .failure(let error):
+                            self.showToast(withMessage: error.localizedDescription,
+                                           color: .failure,
+                                           position: .center)
+                    }
+                }
+            }
         }
+
         let cancelAction = UIAlertAction(title: "Cancelar",
                                          style: .cancel) { UIAlertAction in
             NSLog("Cancel Pressed")

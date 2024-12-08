@@ -1,9 +1,9 @@
 import Foundation
 
 class ViewModel {
-
     var transactions: [Transaction] = []
     var databaseManager: TransactionDatabaseManagerProtocol
+    var onError: ((Error) -> Void)?
 
     init(databaseManager: TransactionDatabaseManagerProtocol) {
         self.databaseManager = databaseManager
@@ -14,7 +14,11 @@ class ViewModel {
 
     // Actualizar transacción
     func updateTransaction(_ transaction: Transaction) {
-        databaseManager.updateTransaction(transaction)
+        do {
+            try databaseManager.updateTransaction(transaction)
+        } catch {
+            onError?(AppError.internalError)
+        }
     }
 
     // Guardar transacción
@@ -23,26 +27,45 @@ class ViewModel {
                                          title: transaction.title,
                                          type: transaction.type,
                                          date: Date())
-        databaseManager.saveTransaction(newTransaction)
-        transactions.append(newTransaction)
-        loadTransactions()
+        do {
+            try databaseManager.saveTransaction(newTransaction)
+            transactions.append(newTransaction)
+            loadTransactions()
+        } catch {
+            onError?(AppError.internalError)
+        }
     }
 
     // Obtener transacciones
     func loadTransactions() {
-        transactions = databaseManager.getTransactions()
-        transactions.sort { $0.date > $1.date }
+        do {
+            transactions = try databaseManager.getTransactions()
+            transactions.sort { $0.date > $1.date }
+        } catch {
+            onError?(AppError.internalError)
+        }
     }
 
     // Obtener una transacción
     func getTransactionBy(id: UUID) -> TransactionSwiftData? {
-        databaseManager.getTransactionBy(id: id)
+        do {
+            let transaction = try databaseManager.getTransactionBy(id: id)
+            return transaction
+        } catch {
+            return nil
+        }
     }
 
     // Borrar transacción
-    func deleteTransaction(_ transaction: Transaction) {
-        databaseManager.deleteTransaction(transaction)
-        loadTransactions()
+    func deleteTransaction(_ transaction: Transaction, completion: @escaping (Result<Void, Error>) -> Void) {
+        do {
+            try databaseManager.deleteTransaction(transaction)
+            loadTransactions()
+            completion(.success(()))
+        } catch {
+//            onError?(AppError.internalError)
+            completion(.failure(error))
+        }
     }
 
     func calculateTotalExpenses() -> Double {

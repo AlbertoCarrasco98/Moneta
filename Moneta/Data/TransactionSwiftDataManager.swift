@@ -15,45 +15,26 @@ class TransactionSwiftDataManager: TransactionDatabaseManagerProtocol {
         }
     }
 
-    func updateTransaction(_ transaction: Transaction) {
+//    MARK: - Methods
 
-        let transactionToUpdate = getTransactionBy(id: transaction.id)
-
-        do {
-            transactionToUpdate?.type = transaction.type.mapToSwiftData()
-            transactionToUpdate?.title = transaction.title
-            transactionToUpdate?.amount = transaction.amount
-            try modelContext.save()
-            print("La transaccion se actualizo satisfactoriamente en la base de datos")
-        } catch {
-            print("Error al actualizar la transaccion en la base de datos")
-        }
-    }
-
-    func saveTransaction(_ transaction: Transaction) {
+    //    Guardar transacción
+    func saveTransaction(_ transaction: Transaction) throws {
         let transactionSwiftData = transaction.mapToSwiftData()
         modelContext.insert(transactionSwiftData)
-        do {
-            try modelContext.save()
-        } catch {
-            print("Error saving Transaction: \(error)")
-        }
+        try modelContext.save()
     }
+
 
     // Devuelve las transacciones ya mapeadas
-    func getTransactions() -> [Transaction] {
-        do {
-            let transactionSwiftDataList = try modelContext.fetch(FetchDescriptor<TransactionSwiftData>())
-            return transactionSwiftDataList.map {
-                $0.mapToDomainModel()
-            }
-        } catch {
-            return []
+    func getTransactions() throws -> [Transaction] {
+        let transactionSwiftDataList = try modelContext.fetch(FetchDescriptor<TransactionSwiftData>())
+        return transactionSwiftDataList.map {
+            $0.mapToDomainModel()
         }
     }
 
-    func getTransactionBy(id: UUID) -> TransactionSwiftData? {
-        do {
+    //    Obtener transacción mediante id
+    func getTransactionBy(id: UUID) throws -> TransactionSwiftData? {
             // Se crea un predicado para filtrar las transacciones por su id
             let predicate = #Predicate<TransactionSwiftData> { transaction in
                 transaction.id == id
@@ -68,19 +49,24 @@ class TransactionSwiftDataManager: TransactionDatabaseManagerProtocol {
 
             // Devuelve el primer (y en este caso, el unico) resuldado encontrado en el array
             return transactions.first
-        } catch {
-            print(DatabaseError.getTransaction)
-            return nil
+    }
+
+    //    Actualizar transacción
+    func updateTransaction(_ transaction: Transaction) throws {
+        let transactionToUpdate = try getTransactionBy(id: transaction.id)
+        transactionToUpdate?.type = transaction.type.mapToSwiftData()
+        transactionToUpdate?.title = transaction.title
+        transactionToUpdate?.amount = transaction.amount
+        try modelContext.save()
+    }
+
+    //    Eliminar transacción
+    func deleteTransaction(_ transaction: Transaction) throws {
+        if transaction.title == "Cuidao" {
+            throw AppError.internalError
         }
-    }
-
-    func deleteTransaction(_ transaction: Transaction) {
-        guard let transactionToDelete = getTransactionBy(id: transaction.id) else { return }
+        guard let transactionToDelete = try getTransactionBy(id: transaction.id) else { return }
         modelContext.delete(transactionToDelete)
+        try modelContext.save()
     }
-}
-
-enum DatabaseError: Error {
-    case buildModelContainer
-    case getTransaction
 }

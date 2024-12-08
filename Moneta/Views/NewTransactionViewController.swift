@@ -110,6 +110,17 @@ class NewTransactionViewController: UIViewController {
         view.backgroundColor = .systemBackground
         addConstraints()
         hideKeyboardWhenTappedAround()
+        setupErrorsHandling()
+    }
+
+    private func setupErrorsHandling() {
+        viewModel.onError = { [weak self] error in
+            DispatchQueue.main.async {
+                self?.showToast(withMessage: error.localizedDescription,
+                                color: .failure,
+                                position: .center)
+            }
+        }
     }
 
     private func addConstraints() {
@@ -179,8 +190,6 @@ class NewTransactionViewController: UIViewController {
                                                       title: title,
                                                       type: transactionType,
                                                       date: Date()))
-                delegate?.didCreateNewTransaction()
-                dismiss(animated: true)
             } catch {
                 showToast(withMessage: AppError.newTransactionAmountError.localizedDescription,
                                color: .failure,
@@ -191,6 +200,8 @@ class NewTransactionViewController: UIViewController {
                            color: .failure,
                            position: .center)
         }
+        delegate?.didCreateNewTransaction()
+        dismiss(animated: true)
     }
 
     private func getTitleTextFieldValue() throws -> String {

@@ -111,6 +111,8 @@ class NewTransactionViewController: UIViewController {
         addConstraints()
         hideKeyboardWhenTappedAround()
         setupErrorsHandling()
+        setupTextFieldObservers()
+        updateAddButtonState()
     }
 
     private func setupErrorsHandling() {
@@ -150,6 +152,15 @@ class NewTransactionViewController: UIViewController {
 
     //    MARK: - Actions
 
+    private func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc private func textFieldDidChange() {
+        updateAddButtonState()
+    }
+
     @objc func addButtonTapped() {
         addTransaction()
     }
@@ -166,11 +177,6 @@ class NewTransactionViewController: UIViewController {
         }
     }
 
-    private func hideKeyboardWhenTappedAround() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -178,37 +184,42 @@ class NewTransactionViewController: UIViewController {
     //    MARK: - Helpers
 
     private func addTransaction() {
+        do {
+            let transaction = try getValidatedTransactionDetail()
+            viewModel.saveTransaction(transaction)
+            delegate?.didCreateNewTransaction()
+            dismiss(animated: true)
+        } catch {
+            showToast(withMessage: error.localizedDescription,
+                      color: .failure,
+                      position: .center)
+        }
+    }
+
+    private func getValidatedTransactionDetail() throws -> Transaction {
         let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
         let transactionType: Transaction.TransactionType = selectedIndexSegmentedControl == 0 ? .expense : .income
 
-        do {
-            let title = try getTitleTextFieldValue()
-            do {
-                let amount = try getAmountTextFieldValue()
-                viewModel.saveTransaction(Transaction(id: UUID(),
-                                                      amount: amount,
-                                                      title: title,
-                                                      type: transactionType,
-                                                      date: Date()))
-            } catch {
-                showToast(withMessage: AppError.newTransactionAmountError.localizedDescription,
-                               color: .failure,
-                               position: .center)
-            }
-        } catch {
-            showToast(withMessage: AppError.newTransactionTitleError.localizedDescription,
-                           color: .failure,
-                           position: .center)
-        }
-        delegate?.didCreateNewTransaction()
-        dismiss(animated: true)
+        let title = try getTitleTextFieldValue()
+        let amount = try getAmountTextFieldValue()
+
+        return Transaction(amount: amount,
+                           title: title,
+                           type: transactionType,
+                           date: Date())
+    }
+
+    private func updateAddButtonState() {
+        let areTextFieldValid = !(titleTextField.text?.isEmpty ?? true) && !(amountTextField.text?.isEmpty ?? true)
+        addTransactionButton.isEnabled = areTextFieldValid
+        addTransactionButton.backgroundColor = areTextFieldValid ? .systemBlue : .gray
     }
 
     private func getTitleTextFieldValue() throws -> String {
-        guard let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !titleText.isEmpty
-        else {
-            throw AppError.newTransactionTitleError
+    guard let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+          !titleText.isEmpty
+    else {
+        throw AppError.newTransactionTitleError
         }
         return titleText
     }
@@ -220,6 +231,14 @@ class NewTransactionViewController: UIViewController {
             throw AppError.newTransactionAmountError
         }
         return amount
+    }
+
+    private func setupTextFieldObservers() {
+        [titleTextField, amountTextField].forEach { textField in
+            textField.addTarget(self,
+                                action: #selector(textFieldDidChange),
+                                for: .editingChanged)
+        }
     }
 }
 

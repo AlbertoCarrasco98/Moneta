@@ -17,20 +17,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
 
         let mainVC = Assembler.createMainVC()
-        mainVC.tabBarItem = UITabBarItem(title: "Moneta",
-                                         image: UIImage(systemName: "dollarsign.circle"),
-                                         tag: 0)
+//        mainVC.tabBarItem = UITabBarItem(title: "Moneta",
+//                                         image: UIImage(systemName: "dollarsign.circle"),
+//                                         tag: 0)
         let mainNavController = UINavigationController(rootViewController: mainVC)
 
-        let balanceVC = Assembler.createBalanceVC()
-        balanceVC.tabBarItem = UITabBarItem(title: "Balance",
-                                            image: UIImage(systemName: "wallet.pass"),
-                                            tag: 1)
-        let balanceNavController = UINavigationController(rootViewController: balanceVC)
+//        let balanceVC = Assembler.createBalanceVC()
+//        balanceVC.tabBarItem = UITabBarItem(title: "Balance",
+//                                            image: UIImage(systemName: "wallet.pass"),
+//                                            tag: 1)
+//        let balanceNavController = UINavigationController(rootViewController: balanceVC)
 
-        let tabBar = UITabBarController()
-        tabBar.viewControllers = [mainNavController, balanceNavController]
-        window.rootViewController = tabBar
+//        let tabBar = UITabBarController()
+//        tabBar.viewControllers = [mainNavController, balanceNavController]
+        window.rootViewController = mainNavController
 
         self.window = window
         window.makeKeyAndVisible()

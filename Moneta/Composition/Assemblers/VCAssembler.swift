@@ -8,9 +8,9 @@ class Assembler {
         return vc
     }
 
-    static func createBalanceVC() -> BalanceViewController {
-        let viewModel = ViewModel(databaseManager: databaseManager)
-        let vc = BalanceViewController(viewModel: viewModel)
-        return vc
-    }
+//    static func createBalanceVC() -> BalanceViewController {
+//        let viewModel = ViewModel(databaseManager: databaseManager)
+//        let vc = BalanceViewController(viewModel: viewModel)
+//        return vc
+//    }
 }

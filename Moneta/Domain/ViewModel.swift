@@ -10,7 +10,7 @@ class ViewModel {
         loadTransactions()
     }
 
-// MARK: - METHODS
+    // MARK: - METHODS
 
     // Actualizar transacción
     func updateTransaction(_ transaction: Transaction) {
@@ -63,26 +63,26 @@ class ViewModel {
             loadTransactions()
             completion(.success(()))
         } catch {
-//            onError?(AppError.internalError)
+            //            onError?(AppError.internalError)
             completion(.failure(error))
         }
     }
 
-    func calculateTotalExpenses() -> Double {
+    func calculateTotalExpenses() -> Int {
         let expenses = transactions
             .filter { $0.type == .expense }
             .reduce(0) { $0 + $1.amount }
-        return Double(expenses)
+        return expenses
     }
 
-    func calculateTotalIncomes() -> Double {
+    func calculateTotalIncomes() -> Int {
         let incomes = transactions
             .filter { $0.type == .income }
             .reduce(0) { $0 + $1.amount }
-        return Double(incomes)
+        return incomes
     }
 
-    func calculateTotalBalance() -> Double {
+    func calculateTotalBalance() -> Int {
         calculateTotalIncomes() - calculateTotalExpenses()
     }
 }

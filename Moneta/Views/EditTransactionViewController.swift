@@ -76,7 +76,7 @@ class EditTransactionViewController: UIViewController {
         amountTextField.layer.masksToBounds = true
         amountTextField.backgroundColor = .systemGray5
 
-        amountTextField.text = String(transaction.amount)
+        amountTextField.text = transaction.amount.mapToEur()
         amountTextField.keyboardType = .decimalPad
 
         return amountTextField
@@ -189,8 +189,12 @@ class EditTransactionViewController: UIViewController {
     }
 
     private func getAmountTextFieldValue() throws -> Int {
-        guard let amountText = amountTextField.text,
-              let amount = Int(amountText), amount > 0
+        guard let amountText = amountTextField.text, !amountText.isEmpty
+        else {
+            throw AppError.editAmountTransactionError
+        }
+        let amount = amountText.mapToCents()
+        guard amount > 0
         else {
             throw AppError.editAmountTransactionError
         }

@@ -2,6 +2,47 @@ import UIKit
 
 class MainViewController: UIViewController, NewTransactionViewControllerDelegate, DeleteTransactionViewControllerDelegate {
 
+    //    MARK: - Properties
+
+    private let viewModel: ViewModel
+
+    var groupedTransactions: [(String, [Transaction])] {
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMM yyyy"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        let sortedTransactions = viewModel.transactions.sorted { $0.date > $1.date }
+
+        let grouped = Dictionary(grouping: sortedTransactions) { transaction in
+            dateFormatter.string(from: transaction.date)
+        }
+
+        let sortedGrouped = grouped.sorted { (firstGroup, secondGroup) in
+            guard
+                let firstDate = dateFormatter.date(from: firstGroup.key),
+                let secondDate = dateFormatter.date(from: secondGroup.key)
+            else {
+                return false
+            }
+            return firstDate > secondDate
+        }
+        return sortedGrouped
+    }
+
+    //    MARK: - Initializers
+
+    init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    //    MARK: - UI Elements
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,120 +81,20 @@ class MainViewController: UIViewController, NewTransactionViewControllerDelegate
     private lazy var incomesLabel: UILabel = {
         let incomesAmountLabel = UILabel()
         incomesAmountLabel.font = .systemFont(ofSize: 16, weight: .semibold)
-        incomesAmountLabel.text = String(viewModel.calculateTotalIncomes())
         incomesAmountLabel.textColor = .systemGreen
         incomesAmountLabel.textAlignment = .center
         return incomesAmountLabel
     }()
 
-    private let viewModel: ViewModel
-
-    var groupedTransactions: [(String, [Transaction])] {
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "d MMM yyyy"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-
-        let sortedTransactions = viewModel.transactions.sorted { $0.date > $1.date }
-
-        let grouped = Dictionary(grouping: sortedTransactions) { transaction in
-            dateFormatter.string(from: transaction.date)
-        }
-
-        let sortedGrouped = grouped.sorted { (firstGroup, secondGroup) in
-            guard
-                let firstDate = dateFormatter.date(from: firstGroup.key),
-                let secondDate = dateFormatter.date(from: secondGroup.key)
-            else {
-                return false
-            }
-            return firstDate > secondDate
-        }
-        return sortedGrouped
-    }
-
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func loadView() {
-        super.loadView()
-        setupUI()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-        updateLabels()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        adjustTableHeaderViewSize()
-    }
-
-    private func setupUI() {
-        title = "Historial de transacciones"
-        view.backgroundColor = .systemBackground
-        addConstraints()
-        tableView.tableHeaderView = labelsView
-        adjustTableHeaderViewSize()
-    }
-
-    private func updateLabels() {
-        expensesLabel.text = String(viewModel.calculateTotalExpenses())
-        incomesLabel.text = String(viewModel.calculateTotalIncomes())
-    }
-
-    func didCreateNewTransaction() {
-        showToast(withMessage: "Transacción creada con éxito",
-                  color: .success,
-                  position: .bottom)
-        tableView.reloadData()
-    }
-
-    func didDeleteTransaction() {
-        showToast(withMessage: "Transacción eliminada con éxito",
-                  color: .success,
-                  position: .bottom)
-    }
-
-    @objc private func addTransactionButtonTapped() {
-        let vc = NewTransactionViewController(viewModel: self.viewModel)
-        vc.delegate = self
-        navigationController?.present(vc, animated: true)
-    }
-
-    private func adjustTableHeaderViewSize() {
-        guard let headerView = tableView.tableHeaderView else { return }
-        headerView.frame.size.width = tableView.bounds.width
-        headerView.layoutIfNeeded()
-        tableView.tableHeaderView = headerView
-    }
-
-    private func addConstraints() {
-        view.addSubview(tableView)
-        view.addSubview(addTransactionButton)
-
-        NSLayoutConstraint.activate([
-            // tableView
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: 12),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
-
-            // addTransactionButton
-            addTransactionButton.widthAnchor.constraint(equalToConstant: 50),
-            addTransactionButton.heightAnchor.constraint(equalToConstant: 50),
-            addTransactionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: addTransactionButton.bottomAnchor, constant: 8)
-        ])
-    }
+    private lazy var placeHolderView: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "¡Comienza agregando una nueva transacción!"
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .gray
+        label.textAlignment = .center
+        return label
+    }()
 
     private lazy var labelsView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 50))
@@ -198,7 +139,111 @@ class MainViewController: UIViewController, NewTransactionViewControllerDelegate
         ])
         return view
     }()
+
+    //    MARK: - LifeCycle
+
+    override func loadView() {
+        super.loadView()
+        setupUI()
+        let amounts = viewModel.transactions.map { $0.amount }
+        print(amounts)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        adjustTableHeaderViewSize()
+    }
+
+    //    MARK: - Setup Methods
+
+    private func setupUI() {
+        title = "Historial de transacciones"
+        view.backgroundColor = .systemBackground
+        addConstraints()
+        tableView.tableHeaderView = labelsView
+        adjustTableHeaderViewSize()
+        showPlaceHolderView()
+        updateLabels()
+    }
+
+    private func addConstraints() {
+        view.addSubview(tableView)
+        view.addSubview(addTransactionButton)
+
+        NSLayoutConstraint.activate([
+            // tableView
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor, constant: 12),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: tableView.bottomAnchor),
+
+            // addTransactionButton
+            addTransactionButton.widthAnchor.constraint(equalToConstant: 50),
+            addTransactionButton.heightAnchor.constraint(equalToConstant: 50),
+            addTransactionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: addTransactionButton.bottomAnchor, constant: 8)
+        ])
+    }
+
+    private func showPlaceHolderView() {
+        view.addSubview(placeHolderView)
+        placeHolderView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        placeHolderView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+
+        placeHolderView.isHidden = !viewModel.transactions.isEmpty
+
+//        if viewModel.transactions.isEmpty == false {
+//            placeHolderView.isHidden = true
+//        } else {
+//            placeHolderView.isHidden = false
+//        }
+    }
+
+    private func adjustTableHeaderViewSize() {
+        guard let headerView = tableView.tableHeaderView else { return }
+        headerView.frame.size.width = tableView.bounds.width
+        headerView.layoutIfNeeded()
+        tableView.tableHeaderView = headerView
+    }
+
+    //    MARK: - Actions
+
+    @objc private func addTransactionButtonTapped() {
+        let vc = NewTransactionViewController(viewModel: self.viewModel)
+        vc.delegate = self
+        navigationController?.present(vc, animated: true)
+    }
+
+    //MARK: - Helpers
+
+    private func updateLabels() {
+        expensesLabel.text = viewModel.calculateTotalExpenses().mapToEur()
+        incomesLabel.text = viewModel.calculateTotalIncomes().mapToEur()
+    }
+
+    func didCreateNewTransaction() {
+        showToast(withMessage: "Transacción creada con éxito",
+                  color: .success,
+                  position: .bottom)
+        showPlaceHolderView()
+        tableView.reloadData()
+        updateLabels()
+    }
+
+    func didDeleteTransaction() {
+        showToast(withMessage: "Transacción eliminada",
+                  color: .success,
+                  position: .bottom)
+        showPlaceHolderView()
+    }
 }
+
+// MARK: - UITableViewDataSource
 
 extension MainViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -228,6 +273,8 @@ extension MainViewController: UITableViewDataSource {
         return fecha.0
     }
 }
+
+// MARK: - UITableViewDelegate
 
 extension MainViewController: UITableViewDelegate {
 

@@ -46,7 +46,7 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        label.text = String(transaction.amount)
+        label.text = transaction.amount.mapToEur()
         label.font = .boldSystemFont(ofSize: 30)
         label.textColor = UIColor.colorAmountLabel(transaction: transaction)
         label.textAlignment = .center
@@ -158,7 +158,7 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
     func didUpdateTransaction(_ transaction: Transaction) {
         self.transaction = transaction
         titleLabel.text = transaction.title
-        amountLabel.text = String(transaction.amount)
+        amountLabel.text = transaction.amount.mapToEur()
         amountLabel.textColor = UIColor.colorAmountLabel(transaction: transaction)
     }
 

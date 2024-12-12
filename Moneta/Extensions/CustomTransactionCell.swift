@@ -78,7 +78,7 @@ class CustomTransactionwCell: UITableViewCell {
 
     func configure(with transaction: Transaction) {
         titleLabel.text = transaction.title
-        amountLabel.text = String(transaction.amount)
+        amountLabel.text = transaction.amount.mapToEur()
         amountLabel.textColor = UIColor.colorAmountLabel(transaction: transaction)
     }
 }

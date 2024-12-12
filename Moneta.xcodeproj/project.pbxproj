@@ -35,6 +35,8 @@
 		98E455F42C85A1280033AE0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E455F22C85A1280033AE0D /* LaunchScreen.storyboard */; };
 		98EE4A7C2CC67565005E3E86 /* TransactionViewControllerDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE4A7B2CC67565005E3E86 /* TransactionViewControllerDelegates.swift */; };
 		98EEF6792CF49DD600593214 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EEF6782CF49DD600593214 /* Dictionary+Extension.swift */; };
+		98F2E3582D0B7AD50034021B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F2E3572D0B7AD50034021B /* String+Extension.swift */; };
+		98F2E35A2D0B7AF40034021B /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F2E3592D0B7AF40034021B /* Int+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +70,8 @@
 		98E455F52C85A1280033AE0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98EE4A7B2CC67565005E3E86 /* TransactionViewControllerDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionViewControllerDelegates.swift; sourceTree = "<group>"; };
 		98EEF6782CF49DD600593214 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
+		98F2E3572D0B7AD50034021B /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		98F2E3592D0B7AF40034021B /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +146,8 @@
 				9846B4B22CAAF7810098A2D3 /* UITextField+Extension.swift */,
 				98EEF6782CF49DD600593214 /* Dictionary+Extension.swift */,
 				98B9D3282CFB97C40059D01E /* UIColor+Extensions.swift */,
+				98F2E3572D0B7AD50034021B /* String+Extension.swift */,
+				98F2E3592D0B7AF40034021B /* Int+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -288,11 +294,13 @@
 				98057C2B2CE339D00003AA65 /* TransactionDateFormatter.swift in Sources */,
 				9859A7F72C99D55D0056F5FD /* Transaction.swift in Sources */,
 				98EEF6792CF49DD600593214 /* Dictionary+Extension.swift in Sources */,
+				98F2E3582D0B7AD50034021B /* String+Extension.swift in Sources */,
 				9859A7F52C99D51A0056F5FD /* NewTransactionViewController.swift in Sources */,
 				9859A7F92C99D57D0056F5FD /* TransactionSwiftDataManager.swift in Sources */,
 				9846B4B72CAD4C4F0098A2D3 /* TransactionSwitData.swift in Sources */,
 				98E455EC2C85A1250033AE0D /* MainViewController.swift in Sources */,
 				980B72252CD37A7E0042B717 /* UIViewController+Extension.swift in Sources */,
+				98F2E35A2D0B7AF40034021B /* Int+Extension.swift in Sources */,
 				98E455E82C85A1250033AE0D /* AppDelegate.swift in Sources */,
 				9846B4B32CAAF7810098A2D3 /* UITextField+Extension.swift in Sources */,
 				98E455EA2C85A1250033AE0D /* SceneDelegate.swift in Sources */,

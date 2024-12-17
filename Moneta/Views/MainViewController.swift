@@ -1,6 +1,9 @@
 import UIKit
 
-class MainViewController: UIViewController, NewTransactionViewControllerDelegate, DeleteTransactionViewControllerDelegate {
+class MainViewController: UIViewController,
+                          NewTransactionViewControllerDelegate {
+
+    
 
     //    MARK: - Properties
 
@@ -11,9 +14,8 @@ class MainViewController: UIViewController, NewTransactionViewControllerDelegate
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMM yyyy"
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-
+        dateFormatter.locale = Locale(identifier: "es_ES")
         let sortedTransactions = viewModel.transactions.sorted { $0.date > $1.date }
-
         let grouped = Dictionary(grouping: sortedTransactions) { transaction in
             dateFormatter.string(from: transaction.date)
         }
@@ -51,6 +53,8 @@ class MainViewController: UIViewController, NewTransactionViewControllerDelegate
         tableView.register(CustomTransactionwCell.self, forCellReuseIdentifier: "CustomTransactionCell")
         tableView.dataSource = self
         tableView.delegate = self
+
+        tableView.layer.cornerRadius = 10
         return tableView
     }()
 
@@ -160,6 +164,11 @@ class MainViewController: UIViewController, NewTransactionViewControllerDelegate
     }
 
     //    MARK: - Setup Methods
+
+    func didUpdateTransaction(_ transaction: Transaction) {
+        updateLabels()
+    }
+
 
     private func setupUI() {
         title = "Historial de transacciones"

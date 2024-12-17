@@ -104,6 +104,7 @@
 		9846B4B82CAD4E960098A2D3 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				9846B4BB2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift */,
 				9846B4B62CAD4C4F0098A2D3 /* TransactionSwitData.swift */,
 				9859A7F82C99D57D0056F5FD /* TransactionSwiftDataManager.swift */,
 				9846B4B92CAD558B0098A2D3 /* TransactionMapper.swift */,
@@ -180,7 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				980DF0A72CB959CB00CE612B /* Composition */,
-				9846B4BB2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift */,
 				9846B4B82CAD4E960098A2D3 /* Data */,
 				9846B4BD2CAE8B770098A2D3 /* Domain */,
 				9859A7F32C99D4EB0056F5FD /* Views */,

@@ -1,10 +1,15 @@
 import UIKit
 
+protocol TransactionDetailViewDelegate: AnyObject {
+    func didUpdateTransaction(_ transaction: Transaction)
+}
+
 class EditTransactionViewController: UIViewController {
+    
     //    MARK: - Properties
     private let viewModel: ViewModel
     var transaction: Transaction
-    weak var delegate: EditTransactionViewControllerDelegate?
+    weak var delegate: TransactionDetailViewDelegate?
 
     //    MARK: - Initializers
 
@@ -157,9 +162,9 @@ class EditTransactionViewController: UIViewController {
             try transaction.title = getTitleTextFieldValue()
             do {
                 try transaction.amount = getAmountTextFieldValue()
-                delegate?.didUpdateTransaction(transaction)
                 viewModel.updateTransaction(self.transaction)
                 viewModel.loadTransactions()
+                delegate?.didUpdateTransaction(transaction)
                 dismiss(animated: true)
             } catch {
                 showToast(withMessage: AppError.editAmountTransactionError.localizedDescription,

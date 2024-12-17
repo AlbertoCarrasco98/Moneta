@@ -1,10 +1,15 @@
 import UIKit
 
-class TransactionDetailViewController: UIViewController, EditTransactionViewControllerDelegate {
+protocol MainViewDelegate: AnyObject {
+    func didUpdateTransaction()
+}
+
+class TransactionDetailViewController: UIViewController, TransactionDetailViewDelegate {
 
     var transaction: Transaction
     let viewModel: ViewModel
-    weak var delegate: DeleteTransactionViewControllerDelegate?
+
+    weak var delegate: MainViewDelegate?
 
     lazy var moneyLabel: UILabel = {
         let label = UILabel()
@@ -72,6 +77,11 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
         setupUI()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.didUpdateTransaction()
+    }
+
     private func setupUI() {
         addCosntraints()
         configureNavigationBar()
@@ -124,7 +134,6 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
                 DispatchQueue.main.async {
                     switch result {
                         case .success:
-                            self.delegate?.didDeleteTransaction()
                             self.navigationController?.popViewController(animated: true)
                         case .failure(let error):
                             self.showToast(withMessage: error.localizedDescription,
@@ -153,13 +162,6 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
             case .expense:
                 return "💶"
         }
-    }
-
-    func didUpdateTransaction(_ transaction: Transaction) {
-        self.transaction = transaction
-        titleLabel.text = transaction.title
-        amountLabel.text = transaction.amount.mapToEur()
-        amountLabel.textColor = UIColor.colorAmountLabel(transaction: transaction)
     }
 
     private func addCosntraints() {
@@ -199,3 +201,11 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewCont
     }
 }
 
+extension TransactionDetailViewController {
+    func didUpdateTransaction(_ transaction: Transaction) {
+        self.transaction = transaction
+        titleLabel.text = transaction.title
+        amountLabel.text = transaction.amount.mapToEur()
+        amountLabel.textColor = UIColor.colorAmountLabel(transaction: transaction)
+    }
+}

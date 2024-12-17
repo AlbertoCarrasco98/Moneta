@@ -1,10 +1,15 @@
 import UIKit
 
+protocol NewTransactionDelegate: AnyObject {
+    func newTransactionCreated()
+}
+
 class NewTransactionViewController: UIViewController {
     //    MARK: - Properties
 
     private let viewModel: ViewModel
-    weak var delegate: NewTransactionViewControllerDelegate?
+
+    weak var delegate: NewTransactionDelegate?
 
     //    MARK: - Initializers
 
@@ -195,7 +200,7 @@ class NewTransactionViewController: UIViewController {
         do {
             let transaction = try getValidatedTransactionDetail()
             viewModel.saveTransaction(transaction)
-            delegate?.didCreateNewTransaction()
+            delegate?.newTransactionCreated()
             dismiss(animated: true)
         } catch {
             showToast(withMessage: error.localizedDescription,
@@ -251,12 +256,6 @@ class NewTransactionViewController: UIViewController {
 
 extension NewTransactionViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-//        titleTextField.becomeFirstResponder()
     }
-
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        return true
-//    }
 }
 

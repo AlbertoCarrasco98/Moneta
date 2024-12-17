@@ -33,7 +33,6 @@
 		98E455EF2C85A1250033AE0D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E455ED2C85A1250033AE0D /* Main.storyboard */; };
 		98E455F12C85A1280033AE0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98E455F02C85A1280033AE0D /* Assets.xcassets */; };
 		98E455F42C85A1280033AE0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E455F22C85A1280033AE0D /* LaunchScreen.storyboard */; };
-		98EE4A7C2CC67565005E3E86 /* TransactionViewControllerDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE4A7B2CC67565005E3E86 /* TransactionViewControllerDelegates.swift */; };
 		98EEF6792CF49DD600593214 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EEF6782CF49DD600593214 /* Dictionary+Extension.swift */; };
 		98F2E3582D0B7AD50034021B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F2E3572D0B7AD50034021B /* String+Extension.swift */; };
 		98F2E35A2D0B7AF40034021B /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F2E3592D0B7AF40034021B /* Int+Extension.swift */; };
@@ -68,7 +67,6 @@
 		98E455F02C85A1280033AE0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98E455F32C85A1280033AE0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		98E455F52C85A1280033AE0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		98EE4A7B2CC67565005E3E86 /* TransactionViewControllerDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionViewControllerDelegates.swift; sourceTree = "<group>"; };
 		98EEF6782CF49DD600593214 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		98F2E3572D0B7AD50034021B /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		98F2E3592D0B7AF40034021B /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				980DF0A52CB42D6100CE612B /* TransactionDetailViewController.swift */,
 				988705882CC100C4003655EC /* EditTransactionViewController.swift */,
 				98B9D32A2CFB98620059D01E /* Toast.swift */,
-				98E44D562CFDC3E000718AD4 /* Delegates */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -151,14 +148,6 @@
 				98F2E3592D0B7AF40034021B /* Int+Extension.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		98E44D562CFDC3E000718AD4 /* Delegates */ = {
-			isa = PBXGroup;
-			children = (
-				98EE4A7B2CC67565005E3E86 /* TransactionViewControllerDelegates.swift */,
-			);
-			path = Delegates;
 			sourceTree = "<group>";
 		};
 		98E455DB2C85A1250033AE0D = {
@@ -313,7 +302,6 @@
 				9846B4BC2CAE8B2B0098A2D3 /* TransactionDatabaseManagerProtocol.swift in Sources */,
 				9846B4B52CAC07300098A2D3 /* CustomTransactionCell.swift in Sources */,
 				98B9D32B2CFB98620059D01E /* Toast.swift in Sources */,
-				98EE4A7C2CC67565005E3E86 /* TransactionViewControllerDelegates.swift in Sources */,
 				9859A7FB2C99D59C0056F5FD /* ViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

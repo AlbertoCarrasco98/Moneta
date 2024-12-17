@@ -1,8 +1,6 @@
 import UIKit
 
-class MainViewController: UIViewController,
-                          NewTransactionViewControllerDelegate {
-
+class MainViewController: UIViewController, MainViewDelegate, NewTransactionDelegate {
     
 
     //    MARK: - Properties
@@ -108,10 +106,10 @@ class MainViewController: UIViewController,
         let incomesTitleLabel = UILabel()
 
         expensesTitleLabel.font = .systemFont(ofSize: 14, weight: .bold)
-        expensesTitleLabel.text = "Mis Gastos"
+        expensesTitleLabel.text = "Gastos"
         expensesTitleLabel.textAlignment = .center
         incomesTitleLabel.font = .systemFont(ofSize: 14, weight: .bold)
-        incomesTitleLabel.text = "Mis Ingresos"
+        incomesTitleLabel.text = "Ingresos"
         incomesTitleLabel.textAlignment = .center
 
         // ExpensesStackView
@@ -164,11 +162,6 @@ class MainViewController: UIViewController,
     }
 
     //    MARK: - Setup Methods
-
-    func didUpdateTransaction(_ transaction: Transaction) {
-        updateLabels()
-    }
-
 
     private func setupUI() {
         title = "Historial de transacciones"
@@ -223,9 +216,9 @@ class MainViewController: UIViewController,
     //    MARK: - Actions
 
     @objc private func addTransactionButtonTapped() {
-        let vc = NewTransactionViewController(viewModel: self.viewModel)
-        vc.delegate = self
-        navigationController?.present(vc, animated: true)
+        let newTransactionVC = NewTransactionViewController(viewModel: self.viewModel)
+        newTransactionVC.delegate = self
+        navigationController?.present(newTransactionVC, animated: true)
     }
 
     //MARK: - Helpers
@@ -292,13 +285,26 @@ extension MainViewController: UITableViewDelegate {
         let grupoDeTransacciones = groupedTransactions[indexPath.section]
         let transaction = grupoDeTransacciones.1[indexPath.row]
 
-        let vc = TransactionDetailViewController(viewModel: viewModel,
+        let transactionDetailVC = TransactionDetailViewController(viewModel: viewModel,
                                                  transaction: transaction)
-        vc.delegate = self
-        navigationController?.pushViewController(vc, animated: true)
+        transactionDetailVC.delegate = self
+        navigationController?.pushViewController(transactionDetailVC, animated: true)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         80
     }
 }
+
+extension MainViewController {
+    func didUpdateTransaction() {
+        updateLabels()
+    }
+
+    func newTransactionCreated() {
+        updateLabels()
+        tableView.reloadData()
+    }
+
+}
+

@@ -1,15 +1,16 @@
 import UIKit
 
-protocol MainViewDelegate: AnyObject {
+protocol TransactionDetailViewDelegate: AnyObject {
     func didUpdateTransaction()
+    func didDeletedTransaction()
 }
 
-class TransactionDetailViewController: UIViewController, TransactionDetailViewDelegate {
+class TransactionDetailViewController: UIViewController, EditTransactionViewDelegate {
 
     var transaction: Transaction
     let viewModel: ViewModel
 
-    weak var delegate: MainViewDelegate?
+    weak var delegate: TransactionDetailViewDelegate?
 
     lazy var moneyLabel: UILabel = {
         let label = UILabel()
@@ -142,6 +143,7 @@ class TransactionDetailViewController: UIViewController, TransactionDetailViewDe
                     }
                 }
             }
+            delegate?.didDeletedTransaction()
         }
 
         let cancelAction = UIAlertAction(title: "Cancelar",
@@ -193,9 +195,7 @@ class TransactionDetailViewController: UIViewController, TransactionDetailViewDe
         let date = transaction.date
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .full
-        dateFormatter.timeStyle = .short
         dateFormatter.locale = Locale(identifier: "es_ES")
-
         let dateString = dateFormatter.string(from: date)
         return dateString.prefix(1).capitalized + dateString.dropFirst()
     }
@@ -207,5 +207,6 @@ extension TransactionDetailViewController {
         titleLabel.text = transaction.title
         amountLabel.text = transaction.amount.mapToEur()
         amountLabel.textColor = UIColor.colorAmountLabel(transaction: transaction)
+        dateLabel.text = dateFormatter(for: transaction)
     }
 }

@@ -1,6 +1,6 @@
 import UIKit
 
-protocol TransactionDetailViewDelegate: AnyObject {
+protocol EditTransactionViewDelegate: AnyObject {
     func didUpdateTransaction(_ transaction: Transaction)
 }
 
@@ -9,7 +9,7 @@ class EditTransactionViewController: UIViewController {
     //    MARK: - Properties
     private let viewModel: ViewModel
     var transaction: Transaction
-    weak var delegate: TransactionDetailViewDelegate?
+    weak var delegate: EditTransactionViewDelegate?
 
     //    MARK: - Initializers
 
@@ -81,10 +81,26 @@ class EditTransactionViewController: UIViewController {
         amountTextField.layer.masksToBounds = true
         amountTextField.backgroundColor = .systemGray5
 
-        amountTextField.text = transaction.amount.mapToEur()
+//        amountTextField.text = transaction.amount.mapToEur()
+        amountTextField.attributedPlaceholder = NSAttributedString(string: transaction.amount.mapToEur(),
+                                                                   attributes: [
+                                                                    .foregroundColor: UIColor.lightGray,
+                                                                    .font: UIFont.italicSystemFont(ofSize: 12)
+                                                                   ])
         amountTextField.keyboardType = .decimalPad
 
         return amountTextField
+    }()
+
+    private lazy var datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.date = transaction.date
+        datePicker.locale = Locale(identifier: "es_ES")
+        datePicker.addTarget(self, action: #selector(datePickerChanged(_:)), for: .valueChanged)
+        return datePicker
     }()
 
     lazy var saveButton: CustomButton = {
@@ -135,6 +151,7 @@ class EditTransactionViewController: UIViewController {
         view.addSubview(titleTextField)
         view.addSubview(amountLabel)
         view.addSubview(amountTextField)
+        view.addSubview(datePicker)
         view.addSubview(saveButton)
 
         NSLayoutConstraint.activate([
@@ -150,14 +167,32 @@ class EditTransactionViewController: UIViewController {
             titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
             amountLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 48),
             amountTextField.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 12),
+            datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            datePicker.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            datePicker.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 50),
             view.bottomAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 64)
         ])
     }
 
     //    MARK: - Actions
 
+    @objc private func datePickerChanged(_ sender: UIDatePicker) {
+        datePicker.date = sender.date
+    }
+
     @objc func saveButtonTapped() {
+        updateTransaction()
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    //    MARK: - Helpers
+
+    private func updateTransaction() {
         transaction.type = getSelectedIndexSegmentedControl()
+        transaction.date = datePicker.date
         do {
             try transaction.title = getTitleTextFieldValue()
             do {
@@ -178,12 +213,6 @@ class EditTransactionViewController: UIViewController {
         }
     }
 
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-
-    //    MARK: - Helpers
-
     private func getTitleTextFieldValue() throws -> String {
         guard let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               !titleText.isEmpty
@@ -194,16 +223,20 @@ class EditTransactionViewController: UIViewController {
     }
 
     private func getAmountTextFieldValue() throws -> Int {
-        guard let amountText = amountTextField.text, !amountText.isEmpty
-        else {
-            throw AppError.editAmountTransactionError
+        if amountTextField.text?.isEmpty == true {
+            return transaction.amount
+        } else {
+            guard let amountText = amountTextField.text, !amountText.isEmpty
+            else {
+                throw AppError.editAmountTransactionError
+            }
+            let amount = amountText.mapToCents()
+            guard amount > 0
+            else {
+                throw AppError.editAmountTransactionError
+            }
+            return amount
         }
-        let amount = amountText.mapToCents()
-        guard amount > 0
-        else {
-            throw AppError.editAmountTransactionError
-        }
-        return amount
     }
 
     private func indexForTransactionType() -> Int {

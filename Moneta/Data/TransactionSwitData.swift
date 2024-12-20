@@ -7,7 +7,7 @@ class TransactionSwiftData: Identifiable {
     var amount: Int
     var title: String
     var type: TransactionType
-    let date: Date
+    var date: Date
 
     init(id: UUID = UUID(), amount: Int, title: String, type: TransactionType, date: Date) {
         self.id = id

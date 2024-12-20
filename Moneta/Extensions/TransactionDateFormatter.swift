@@ -6,7 +6,7 @@ class TransactionDateFormatter {
         let date = transaction.date
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
-        dateFormatter.timeStyle = .none
+//        dateFormatter.timeStyle = .none
         dateFormatter.locale = Locale(identifier: "es_ES")
 
         let dateString = dateFormatter.string(from: date)
@@ -16,7 +16,7 @@ class TransactionDateFormatter {
     static func map(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
-        dateFormatter.timeStyle = .none
+//        dateFormatter.timeStyle = .none
         dateFormatter.locale = Locale(identifier: "es_ES")
 
         let dateString = dateFormatter.string(from: date)

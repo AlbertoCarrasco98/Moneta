@@ -1,7 +1,6 @@
 import UIKit
 
-class MainViewController: UIViewController, MainViewDelegate, NewTransactionDelegate {
-    
+class MainViewController: UIViewController, TransactionDetailViewDelegate, NewTransactionDelegate {
 
     //    MARK: - Properties
 
@@ -169,7 +168,7 @@ class MainViewController: UIViewController, MainViewDelegate, NewTransactionDele
         addConstraints()
         tableView.tableHeaderView = labelsView
         adjustTableHeaderViewSize()
-        showPlaceHolderView()
+        añadirPlaceholderALaView()
         updateLabels()
     }
 
@@ -192,18 +191,14 @@ class MainViewController: UIViewController, MainViewDelegate, NewTransactionDele
         ])
     }
 
-    private func showPlaceHolderView() {
+    private func añadirPlaceholderALaView() {
         view.addSubview(placeHolderView)
         placeHolderView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         placeHolderView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    }
 
+    private func updatePlaceholderViewVisibility() {
         placeHolderView.isHidden = !viewModel.transactions.isEmpty
-
-//        if viewModel.transactions.isEmpty == false {
-//            placeHolderView.isHidden = true
-//        } else {
-//            placeHolderView.isHidden = false
-//        }
     }
 
     private func adjustTableHeaderViewSize() {
@@ -232,7 +227,7 @@ class MainViewController: UIViewController, MainViewDelegate, NewTransactionDele
         showToast(withMessage: "Transacción creada con éxito",
                   color: .success,
                   position: .bottom)
-        showPlaceHolderView()
+        updatePlaceholderViewVisibility()
         tableView.reloadData()
         updateLabels()
     }
@@ -241,7 +236,7 @@ class MainViewController: UIViewController, MainViewDelegate, NewTransactionDele
         showToast(withMessage: "Transacción eliminada",
                   color: .success,
                   position: .bottom)
-        showPlaceHolderView()
+        updatePlaceholderViewVisibility()
     }
 }
 
@@ -303,8 +298,12 @@ extension MainViewController {
 
     func newTransactionCreated() {
         updateLabels()
+        updatePlaceholderViewVisibility()
         tableView.reloadData()
     }
 
+    func didDeletedTransaction() {
+        updatePlaceholderViewVisibility()
+    }
 }
 

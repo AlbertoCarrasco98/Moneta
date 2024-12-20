@@ -26,7 +26,7 @@ class ViewModel {
         let newTransaction = Transaction(amount: transaction.amount,
                                          title: transaction.title,
                                          type: transaction.type,
-                                         date: Date())
+                                         date: transaction.date)
         do {
             try databaseManager.saveTransaction(newTransaction)
             transactions.append(newTransaction)

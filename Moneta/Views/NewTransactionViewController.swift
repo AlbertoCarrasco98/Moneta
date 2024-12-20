@@ -8,7 +8,6 @@ class NewTransactionViewController: UIViewController {
     //    MARK: - Properties
 
     private let viewModel: ViewModel
-
     weak var delegate: NewTransactionDelegate?
 
     //    MARK: - Initializers
@@ -27,14 +26,10 @@ class NewTransactionViewController: UIViewController {
     private lazy var segmentedControl: UISegmentedControl = {
         let items = ["Gasto", "Ingreso"]
         let segmentedControl = UISegmentedControl(items: items)
-
         segmentedControl.selectedSegmentIndex = 0
-
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.widthAnchor.constraint(equalToConstant: 300).isActive = true
-
         segmentedControl.addTarget(self, action: #selector(updatePlaceholderTitleTextfield), for: .valueChanged)
-
         return segmentedControl
     }()
 
@@ -103,6 +98,16 @@ class NewTransactionViewController: UIViewController {
         return amountTextField
     }()
 
+    private lazy var datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.locale = Locale(identifier: "es_ES")
+        datePicker.addTarget(self, action: #selector(datePickerChanged(_:)), for: .valueChanged)
+        return datePicker
+    }()
+
     private lazy var addTransactionButton: CustomButton = {
         let addButton = CustomButton()
         addButton.setTitle("Añadir movimiento", for: .normal)
@@ -144,6 +149,7 @@ class NewTransactionViewController: UIViewController {
         view.addSubview(titleTextField)
         view.addSubview(amountLabel)
         view.addSubview(amountTextField)
+        view.addSubview(datePicker)
         view.addSubview(addTransactionButton)
 
         NSLayoutConstraint.activate([
@@ -159,6 +165,9 @@ class NewTransactionViewController: UIViewController {
             titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
             amountLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 48),
             amountTextField.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 12),
+            datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            datePicker.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            datePicker.topAnchor.constraint(equalTo: amountTextField.bottomAnchor, constant: 50),
             view.bottomAnchor.constraint(equalTo: addTransactionButton.bottomAnchor, constant: 64)
         ])
     }
@@ -172,6 +181,10 @@ class NewTransactionViewController: UIViewController {
 
     @objc private func textFieldDidChange() {
         updateAddButtonState()
+    }
+
+    @objc private func datePickerChanged(_ sender: UIDatePicker) {
+        datePicker.date = sender.date
     }
 
     @objc func addButtonTapped() {
@@ -212,14 +225,14 @@ class NewTransactionViewController: UIViewController {
     private func getValidatedTransactionDetail() throws -> Transaction {
         let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
         let transactionType: Transaction.TransactionType = selectedIndexSegmentedControl == 0 ? .expense : .income
-
         let title = try getTitleTextFieldValue()
         let amount = try getAmountTextFieldValue()
+        let selectedDate = datePicker.date
 
         return Transaction(amount: amount,
                            title: title,
                            type: transactionType,
-                           date: Date())
+                           date: selectedDate)
     }
 
     private func updateAddButtonState() {

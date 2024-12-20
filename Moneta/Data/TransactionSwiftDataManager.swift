@@ -57,6 +57,7 @@ class TransactionSwiftDataManager: TransactionDatabaseManagerProtocol {
         transactionToUpdate?.type = transaction.type.mapToSwiftData()
         transactionToUpdate?.title = transaction.title
         transactionToUpdate?.amount = transaction.amount
+        transactionToUpdate?.date = transaction.date
         try modelContext.save()
     }
 

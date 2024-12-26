@@ -5,7 +5,7 @@ class Toast {
         case top
         case center
         case bottom
-
+        
         var defaultHeight: CGFloat {
             switch self {
                 case .top:

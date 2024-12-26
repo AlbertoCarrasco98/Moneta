@@ -34,7 +34,7 @@ class CustomTransactionwCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
     }
-    
+
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         containerView.backgroundColor = highlighted ? UIColor.lightGray.withAlphaComponent(0.3) : .systemGray6

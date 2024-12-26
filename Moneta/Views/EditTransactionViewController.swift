@@ -10,32 +10,32 @@ class EditTransactionViewController: UIViewController {
     private let viewModel: ViewModel
     var transaction: Transaction
     weak var delegate: EditTransactionViewDelegate?
-
+    
     //    MARK: - Initializers
-
+    
     init(viewModel: ViewModel, transaction: Transaction) {
         self.viewModel = viewModel
         self.transaction = transaction
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     //    MARK: - UI Elements
-
+    
     lazy var segmentedControl: UISegmentedControl = {
         let items = ["Gasto", "Ingreso"]
         let segmentedControl = UISegmentedControl(items: items)
-
+        
         segmentedControl.selectedSegmentIndex = indexForTransactionType()
-
+        
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.widthAnchor.constraint(equalToConstant: 300).isActive = true
         return segmentedControl
     }()
-
+    
     lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -43,10 +43,10 @@ class EditTransactionViewController: UIViewController {
         titleLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         titleLabel.text = "Título"
         titleLabel.font = .boldSystemFont(ofSize: 22)
-
+        
         return titleLabel
     }()
-
+    
     lazy var titleTextField: UITextField = {
         let titleTextField = InsetTextField(spacing: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0))
         titleTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -55,12 +55,12 @@ class EditTransactionViewController: UIViewController {
         titleTextField.layer.cornerRadius = 10
         titleTextField.layer.masksToBounds = true
         titleTextField.backgroundColor = .systemGray5
-
+        
         titleTextField.text = transaction.title
-
+        
         return titleTextField
     }()
-
+    
     lazy var amountLabel: UILabel = {
         let amountLabel = UILabel()
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -68,10 +68,10 @@ class EditTransactionViewController: UIViewController {
         amountLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         amountLabel.text = "Cantidad"
         amountLabel.font = .boldSystemFont(ofSize: 22)
-
+        
         return amountLabel
     }()
-
+    
     lazy var amountTextField: UITextField = {
         let amountTextField = InsetTextField(spacing: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0))
         amountTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -80,18 +80,16 @@ class EditTransactionViewController: UIViewController {
         amountTextField.layer.cornerRadius = 10
         amountTextField.layer.masksToBounds = true
         amountTextField.backgroundColor = .systemGray5
-
-//        amountTextField.text = transaction.amount.mapToEur()
         amountTextField.attributedPlaceholder = NSAttributedString(string: transaction.amount.mapToEur(),
                                                                    attributes: [
                                                                     .foregroundColor: UIColor.lightGray,
-                                                                    .font: UIFont.italicSystemFont(ofSize: 12)
+                                                                    .font: UIFont.italicSystemFont(ofSize: 14)
                                                                    ])
         amountTextField.keyboardType = .decimalPad
-
+        
         return amountTextField
     }()
-
+    
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -102,7 +100,7 @@ class EditTransactionViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(datePickerChanged(_:)), for: .valueChanged)
         return datePicker
     }()
-
+    
     lazy var saveButton: CustomButton = {
         let saveButton = CustomButton()
         saveButton.setTitle("Guardar", for: .normal)
@@ -111,16 +109,16 @@ class EditTransactionViewController: UIViewController {
                              for: .touchUpInside)
         return saveButton
     }()
-
+    
     //    MARK: - LifeCycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-
+    
     //    MARK: - Setup Methods
-
+    
     private func setupUI() {
         view.backgroundColor = .systemBackground
         self.title = "Editar transacción"
@@ -128,13 +126,13 @@ class EditTransactionViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         setupErrorsHandling()
     }
-
+    
     private func hideKeyboardWhenTappedAround() {
         let tap = UITapGestureRecognizer(target: self,
                                          action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
-
+    
     private func setupErrorsHandling() {
         viewModel.onError = { [weak self] error in
             DispatchQueue.main.async {
@@ -144,7 +142,7 @@ class EditTransactionViewController: UIViewController {
             }
         }
     }
-
+    
     private func addConstraint() {
         view.addSubview(segmentedControl)
         view.addSubview(titleLabel)
@@ -153,7 +151,7 @@ class EditTransactionViewController: UIViewController {
         view.addSubview(amountTextField)
         view.addSubview(datePicker)
         view.addSubview(saveButton)
-
+        
         NSLayoutConstraint.activate([
             segmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -161,7 +159,7 @@ class EditTransactionViewController: UIViewController {
             amountLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             amountTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
+            
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 48),
             titleLabel.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 48),
             titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
@@ -173,23 +171,23 @@ class EditTransactionViewController: UIViewController {
             view.bottomAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 64)
         ])
     }
-
+    
     //    MARK: - Actions
-
+    
     @objc private func datePickerChanged(_ sender: UIDatePicker) {
         datePicker.date = sender.date
     }
-
+    
     @objc func saveButtonTapped() {
         updateTransaction()
     }
-
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
     //    MARK: - Helpers
-
+    
     private func updateTransaction() {
         transaction.type = getSelectedIndexSegmentedControl()
         transaction.date = datePicker.date
@@ -212,7 +210,7 @@ class EditTransactionViewController: UIViewController {
                       position: .center)
         }
     }
-
+    
     private func getTitleTextFieldValue() throws -> String {
         guard let titleText = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               !titleText.isEmpty
@@ -221,7 +219,7 @@ class EditTransactionViewController: UIViewController {
         }
         return titleText
     }
-
+    
     private func getAmountTextFieldValue() throws -> Int {
         if amountTextField.text?.isEmpty == true {
             return transaction.amount
@@ -238,7 +236,7 @@ class EditTransactionViewController: UIViewController {
             return amount
         }
     }
-
+    
     private func indexForTransactionType() -> Int {
         switch transaction.type {
             case .income:
@@ -247,7 +245,7 @@ class EditTransactionViewController: UIViewController {
                 return 0
         }
     }
-
+    
     private func getSelectedIndexSegmentedControl() -> Transaction.TransactionType {
         let selectedIndexSegmentedControl = segmentedControl.selectedSegmentIndex
         let transactionType: Transaction.TransactionType = selectedIndexSegmentedControl == 0 ? .expense : .income

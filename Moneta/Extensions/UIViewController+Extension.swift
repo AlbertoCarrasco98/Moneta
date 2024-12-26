@@ -1,7 +1,7 @@
 import UIKit
 
 extension UIViewController {
-    
+
     func showToast(withMessage message: String,
                    duration: TimeInterval = 2.0,
                    color: UIColor.ToastColor,
@@ -43,16 +43,5 @@ extension UIViewController {
             })
         })
     }
-
-//    func showAlert(message: String) {
-//        let alert = UIAlertController(title: "Ups!",
-//                                      message: message,
-//                                      preferredStyle: .alert)
-//        let alertAction = UIAlertAction(title: "Aceptar",
-//                                        style: .default,
-//                                        handler: nil)
-//        alert.addAction(alertAction)
-//        present(alert, animated: true)
-//    }
 }
 

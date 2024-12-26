@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  Moneta
-//
-//  Created by Juan Antonio Carrasco del Cid on 2/9/24.
-//
-
 import UIKit
 
 @main

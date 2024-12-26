@@ -7,10 +7,25 @@ protocol TransactionDetailViewDelegate: AnyObject {
 
 class TransactionDetailViewController: UIViewController, EditTransactionViewDelegate {
 
+    //    MARK: - Properties
+
     var transaction: Transaction
     let viewModel: ViewModel
-
     weak var delegate: TransactionDetailViewDelegate?
+
+    //    MARK: - Initializers
+
+    init(viewModel: ViewModel, transaction: Transaction) {
+        self.transaction = transaction
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    //    MARK: - UI Elements
 
     lazy var moneyLabel: UILabel = {
         let label = UILabel()
@@ -20,7 +35,6 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewDele
         label.text = moneyLabelIcon()
         label.font = .boldSystemFont(ofSize: 50)
         label.textAlignment = .center
-
         return label
     }()
 
@@ -32,7 +46,6 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewDele
         label.text = transaction.title
         label.font = .boldSystemFont(ofSize: 22)
         label.textAlignment = .center
-
         return label
     }()
 
@@ -44,7 +57,6 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewDele
         label.text = dateFormatter(for: transaction)
         label.textAlignment = .center
         label.font = .italicSystemFont(ofSize: 12)
-
         return label
     }()
 
@@ -59,19 +71,10 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewDele
         label.backgroundColor = .systemGray5
         label.layer.cornerRadius = 10
         label.layer.masksToBounds = true
-
         return label
     }()
 
-    init(viewModel: ViewModel, transaction: Transaction) {
-        self.transaction = transaction
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    //    MARK: - LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,11 +86,38 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewDele
         delegate?.didUpdateTransaction()
     }
 
+    //    MARK: - Setup Methods
+
     private func setupUI() {
         addCosntraints()
         configureNavigationBar()
         title = "Detalle de transacción"
         view.backgroundColor = .systemBackground
+    }
+
+    private func addCosntraints() {
+        view.addSubview(moneyLabel)
+        view.addSubview(titleLabel)
+        view.addSubview(dateLabel)
+        view.addSubview(amountLabel)
+        view.addSubview(UIView())
+
+        NSLayoutConstraint.activate([
+
+            moneyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            amountLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            moneyLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 24),
+            titleLabel.topAnchor.constraint(equalTo: moneyLabel.bottomAnchor, constant: 20),
+
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+
+            amountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            amountLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 24),
+            view.trailingAnchor.constraint(equalTo: amountLabel.trailingAnchor, constant: 24)
+        ])
     }
 
     private func configureNavigationBar() {
@@ -111,13 +141,6 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewDele
         let menu = UIMenu(children: [editButtonAction, deleteButtonAction])
         optionsMenu.menu = menu
         return optionsMenu
-    }
-
-    private func editButtonTapped() {
-        let editTransactionVC = EditTransactionViewController(viewModel: viewModel,
-                                                              transaction: transaction)
-        editTransactionVC.delegate = self
-        self.navigationController?.present(editTransactionVC, animated: true)
     }
 
     private func presentDeleteTransactionAlert() {
@@ -157,6 +180,15 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewDele
                      completion: nil)
     }
 
+    //MARK: - Helpers
+
+    private func editButtonTapped() {
+        let editTransactionVC = EditTransactionViewController(viewModel: viewModel,
+                                                              transaction: transaction)
+        editTransactionVC.delegate = self
+        self.navigationController?.present(editTransactionVC, animated: true)
+    }
+
     private func moneyLabelIcon() -> String {
         switch transaction.type {
             case .income:
@@ -164,31 +196,6 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewDele
             case .expense:
                 return "💶"
         }
-    }
-
-    private func addCosntraints() {
-        view.addSubview(moneyLabel)
-        view.addSubview(titleLabel)
-        view.addSubview(dateLabel)
-        view.addSubview(amountLabel)
-        view.addSubview(UIView())
-
-        NSLayoutConstraint.activate([
-
-            moneyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            amountLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
-            moneyLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 24),
-            titleLabel.topAnchor.constraint(equalTo: moneyLabel.bottomAnchor, constant: 20),
-
-            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-
-            amountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            amountLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 24),
-            view.trailingAnchor.constraint(equalTo: amountLabel.trailingAnchor, constant: 24)
-        ])
     }
 
     private func dateFormatter(for transaction: Transaction) -> String {
@@ -200,6 +207,8 @@ class TransactionDetailViewController: UIViewController, EditTransactionViewDele
         return dateString.prefix(1).capitalized + dateString.dropFirst()
     }
 }
+
+// MARK: - Protocols methods
 
 extension TransactionDetailViewController {
     func didUpdateTransaction(_ transaction: Transaction) {

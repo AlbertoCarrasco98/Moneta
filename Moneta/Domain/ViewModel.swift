@@ -4,14 +4,14 @@ class ViewModel {
     var transactions: [Transaction] = []
     var databaseManager: TransactionDatabaseManagerProtocol
     var onError: ((Error) -> Void)?
-
+    
     init(databaseManager: TransactionDatabaseManagerProtocol) {
         self.databaseManager = databaseManager
         loadTransactions()
     }
-
+    
     // MARK: - METHODS
-
+    
     // Actualizar transacción
     func updateTransaction(_ transaction: Transaction) {
         do {
@@ -20,7 +20,7 @@ class ViewModel {
             onError?(AppError.internalError)
         }
     }
-
+    
     // Guardar transacción
     func saveTransaction(_ transaction: Transaction) {
         let newTransaction = Transaction(amount: transaction.amount,
@@ -35,7 +35,7 @@ class ViewModel {
             onError?(AppError.internalError)
         }
     }
-
+    
     // Obtener transacciones
     func loadTransactions() {
         do {
@@ -45,7 +45,7 @@ class ViewModel {
             onError?(AppError.internalError)
         }
     }
-
+    
     // Obtener una transacción
     func getTransactionBy(id: UUID) -> TransactionSwiftData? {
         do {
@@ -55,7 +55,7 @@ class ViewModel {
             return nil
         }
     }
-
+    
     // Borrar transacción
     func deleteTransaction(_ transaction: Transaction, completion: @escaping (Result<Void, Error>) -> Void) {
         do {
@@ -67,21 +67,21 @@ class ViewModel {
             completion(.failure(error))
         }
     }
-
+    
     func calculateTotalExpenses() -> Int {
         let expenses = transactions
             .filter { $0.type == .expense }
             .reduce(0) { $0 + $1.amount }
         return expenses
     }
-
+    
     func calculateTotalIncomes() -> Int {
         let incomes = transactions
             .filter { $0.type == .income }
             .reduce(0) { $0 + $1.amount }
         return incomes
     }
-
+    
     func calculateTotalBalance() -> Int {
         calculateTotalIncomes() - calculateTotalExpenses()
     }

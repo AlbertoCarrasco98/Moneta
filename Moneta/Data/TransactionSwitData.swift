@@ -8,7 +8,7 @@ class TransactionSwiftData: Identifiable {
     var title: String
     var type: TransactionType
     var date: Date
-
+    
     init(id: UUID = UUID(), amount: Int, title: String, type: TransactionType, date: Date) {
         self.id = id
         self.amount = amount
@@ -16,7 +16,7 @@ class TransactionSwiftData: Identifiable {
         self.type = type
         self.date = date
     }
-
+    
     enum TransactionType: Codable {
         case income
         case expense

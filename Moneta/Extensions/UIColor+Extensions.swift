@@ -1,7 +1,7 @@
 import UIKit
 
 extension UIColor {
-    
+
     static func colorAmountLabel(transaction: Transaction) -> UIColor {
         switch transaction.type {
             case .income:
@@ -15,7 +15,7 @@ extension UIColor {
         case success
         case failure
         case `default`
-        
+
         var defaultColor: UIColor {
             switch self {
                 case .success:
